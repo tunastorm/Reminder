@@ -26,7 +26,7 @@ class BaseViewController<T:BaseView>: UIViewController {
     }
     
     func configNavigationbar() {
-        navigationItem.backButtonTitle = ""
+        navigationItem.backButtonTitle = nil
     }
     
     func configInteraction() {
