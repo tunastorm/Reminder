@@ -18,6 +18,7 @@ class BaseViewController<T:BaseView>: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configInteraction()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -13,18 +13,48 @@ import Then
 class AddTodoView: BaseView {
     
     let titleContentsView = UIView().then {
-        $0.backgroundColor = .systemGray3
-        $0.layer.cornerRadius = 20
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 10
         $0.layer.masksToBounds = true
     }
-    let deadlineView = AddTodoItem()
-    let tagView = AddTodoItem()
-    let priorityView = AddTodoItem()
-    let addImageView = AddTodoItem()
+    let titleTextField = UITextField().then {
+        $0.placeholder = "제목"
+        $0.font = .systemFont(ofSize: 14)
+        $0.textColor = .lightGray
+        $0.setPlaceholder(color: .lightGray)
+        $0.backgroundColor = .clear
+    }
+    
+    let lineview = UIView().then {
+        $0.backgroundColor = .lightGray
+    }
+    
+    let contentsTextView = UITextView().then {
+        $0.text = "메모"
+        $0.font = .systemFont(ofSize: 14)
+        $0.textColor = .lightGray
+        $0.backgroundColor = .clear
+    }
+    
+    let deadlineView = AddTodoItem().then {
+        $0.itemName.text = "마감일"
+    }
+    let tagView = AddTodoItem().then {
+        $0.itemName.text = "태그"
+    }
+    let priorityView = AddTodoItem().then {
+        $0.itemName.text = "우선순위"
+    }
+    let addImageView = AddTodoItem().then {
+        $0.itemName.text = "이미지 추가"
+    }
     
     
     override func configHierarchy() {
         self.addSubview(titleContentsView)
+        titleContentsView.addSubview(titleTextField)
+        titleContentsView.addSubview(lineview)
+        titleContentsView.addSubview(contentsTextView)
         self.addSubview(deadlineView)
         self.addSubview(tagView)
         self.addSubview(priorityView)
@@ -56,10 +86,23 @@ class AddTodoView: BaseView {
             $0.top.equalTo(priorityView.snp.bottom).offset(10)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
         }
+        titleTextField.snp.makeConstraints {
+            $0.height.equalTo(20)
+            $0.top.equalToSuperview().inset(8)
+            $0.horizontalEdges.equalToSuperview().inset(12)
+        }
+        lineview.snp.makeConstraints {
+            $0.height.equalTo(1)
+            $0.top.equalTo(titleTextField.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(8)
+        }
+        contentsTextView.snp.makeConstraints {
+            $0.top.equalTo(lineview.snp.bottom)
+            $0.bottom.horizontalEdges.equalToSuperview().inset(8)
+        }
     }
     
     override func configView() {
-        super.configView()
-        titleContentsView.backgroundColor = .red
+        self.backgroundColor = .darkGray
     }
 }
