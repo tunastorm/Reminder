@@ -6,13 +6,20 @@
 //
 import UIKit
 
+import RealmSwift
+
 
 class TodoListViewController: BaseViewController<TodoListView> {
+    
+    let realm = try! Realm()
+    
+    var list: Results<TodoModel>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configInteraction()
-        print(#function, rootView.tableView.delegate)
+        configList()
+        print(#function, realm.configuration.fileURL)
     }
     
     override func configInteraction() {
@@ -21,6 +28,10 @@ class TodoListViewController: BaseViewController<TodoListView> {
 //        rootView.tableView.prefetchDataSource = self
         rootView.tableView.register(TodoListTableViewCell.self,
                                     forCellReuseIdentifier: TodoListTableViewCell.identifier)
+    }
+    
+    func configList() {
+        list = realm.objects(TodoModel.self)
     }
 }
 

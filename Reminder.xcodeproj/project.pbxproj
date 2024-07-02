@@ -101,6 +101,7 @@
 		BC1ED3552C33E5A100BFD44A /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				BC1ED3772C33F4D100BFD44A /* Main */,
 				BC1ED3722C33EE4900BFD44A /* Protocol */,
 				BC1ED3612C33E85600BFD44A /* Base */,
 				BC1ED3572C33E5B300BFD44A /* TodoList */,
@@ -185,6 +186,37 @@
 				BC1ED3752C33EE6600BFD44A /* ViewTransition.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		BC1ED3772C33F4D100BFD44A /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				BC1ED3782C33F4D900BFD44A /* Model */,
+				BC1ED3792C33F4DD00BFD44A /* View */,
+				BC1ED37A2C33F4E000BFD44A /* Controller */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		BC1ED3782C33F4D900BFD44A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BC1ED3792C33F4DD00BFD44A /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BC1ED37A2C33F4E000BFD44A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

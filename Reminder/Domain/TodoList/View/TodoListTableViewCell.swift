@@ -27,7 +27,10 @@ class TodoListTableViewCell: BaseTableViewCell {
     
     override func configView() {
         super.configView()
-        label.text = "테스트"
+    }
+    
+    func configCell(data: TodoModel) {
+        label.text = data.title
     }
 }
 
