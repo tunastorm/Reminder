@@ -31,6 +31,10 @@ class TodoListViewController: BaseViewController<TodoListView> {
     func configList() {
         list = realm.objects(TodoModel.self)
     }
+    
+    func fatchRealm() {
+        rootView.tableView.reloadData()
+    }
 }
 
 

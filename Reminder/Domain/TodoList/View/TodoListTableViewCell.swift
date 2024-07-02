@@ -38,14 +38,14 @@ class TodoListTableViewCell: BaseTableViewCell {
     }
     let deadlineLabel = UILabel().then {
         $0.textColor = .darkGray
-        $0.font = .systemFont(ofSize: 10)
+        $0.font = .systemFont(ofSize: 15)
         $0.textAlignment = .left
         $0.isHidden = true
     }
     let tagLabel = UILabel().then {
         $0.textColor = .systemCyan
         $0.textAlignment = .left
-        $0.font = .boldSystemFont(ofSize: 10)
+        $0.font = .boldSystemFont(ofSize: 15)
     }
     
     
@@ -125,7 +125,7 @@ class TodoListTableViewCell: BaseTableViewCell {
             deadlineLabel.isHidden = false
             deadlineLabel.text = dataFormatter.string(from: deadline)
             deadlineLabel.snp.updateConstraints {
-                $0.width.equalTo(120)
+                $0.width.equalTo(78)
                 $0.leading.equalToSuperview().inset(10)
             }
         }

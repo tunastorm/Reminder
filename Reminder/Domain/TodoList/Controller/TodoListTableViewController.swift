@@ -31,6 +31,21 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource /*U
         return cell
     }
     
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let list else {
+            return nil
+        }
+        print(#function, "swipe!!!!")
+        let delete = UIContextualAction(style: .normal, title: "삭제") { action, view, complitionHandler in
+            
+            try! self.realm.write {
+                self.realm.delete(list[indexPath.row])
+            }
+            self.fatchRealm()
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
 //    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
 //        print(#function, "hi")
 //    }
