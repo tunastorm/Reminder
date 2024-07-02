@@ -16,7 +16,6 @@ extension AddTodoViewController: UITextFieldDelegate {
         return true
     }
     
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == rootView.titleTextField {
             textField.placeholder = "제목"

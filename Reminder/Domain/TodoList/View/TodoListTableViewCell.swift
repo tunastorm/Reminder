@@ -123,9 +123,10 @@ class TodoListTableViewCell: BaseTableViewCell {
             let dataFormatter = DateFormatter()
             dataFormatter.dateFormat = "yyyy. M. d."
             deadlineLabel.isHidden = false
-            deadlineLabel.text = dataFormatter.string(from: deadline)
+            let dateString = dataFormatter.string(from: deadline)
+            deadlineLabel.text = dateString
             deadlineLabel.snp.updateConstraints {
-                $0.width.equalTo(78)
+                $0.width.equalTo(dateString.count * 7)
                 $0.leading.equalToSuperview().inset(10)
             }
         }
