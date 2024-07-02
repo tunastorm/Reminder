@@ -10,9 +10,13 @@
 		BC1ED3332C33E37E00BFD44A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3322C33E37E00BFD44A /* AppDelegate.swift */; };
 		BC1ED3352C33E37E00BFD44A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3342C33E37E00BFD44A /* SceneDelegate.swift */; };
 		BC1ED3372C33E37E00BFD44A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3362C33E37E00BFD44A /* ViewController.swift */; };
-		BC1ED33A2C33E37E00BFD44A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = BC1ED3392C33E37E00BFD44A /* Base */; };
 		BC1ED33C2C33E38000BFD44A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC1ED33B2C33E38000BFD44A /* Assets.xcassets */; };
 		BC1ED33F2C33E38000BFD44A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = BC1ED33E2C33E38000BFD44A /* Base */; };
+		BC1ED3482C33E47500BFD44A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BC1ED3472C33E47500BFD44A /* RealmSwift */; };
+		BC1ED34B2C33E47F00BFD44A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BC1ED34A2C33E47F00BFD44A /* SnapKit */; };
+		BC1ED34E2C33E48800BFD44A /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BC1ED34D2C33E48800BFD44A /* Toast */; };
+		BC1ED3512C33E49000BFD44A /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BC1ED3502C33E49000BFD44A /* Then */; };
+		BC1ED3542C33E49800BFD44A /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BC1ED3532C33E49800BFD44A /* IQKeyboardManagerSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,7 +24,6 @@
 		BC1ED3322C33E37E00BFD44A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BC1ED3342C33E37E00BFD44A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BC1ED3362C33E37E00BFD44A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BC1ED3392C33E37E00BFD44A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BC1ED33B2C33E38000BFD44A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC1ED33E2C33E38000BFD44A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC1ED3402C33E38000BFD44A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -31,6 +34,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC1ED3542C33E49800BFD44A /* IQKeyboardManagerSwift in Frameworks */,
+				BC1ED34E2C33E48800BFD44A /* Toast in Frameworks */,
+				BC1ED3482C33E47500BFD44A /* RealmSwift in Frameworks */,
+				BC1ED34B2C33E47F00BFD44A /* SnapKit in Frameworks */,
+				BC1ED3512C33E49000BFD44A /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +67,6 @@
 				BC1ED3322C33E37E00BFD44A /* AppDelegate.swift */,
 				BC1ED3342C33E37E00BFD44A /* SceneDelegate.swift */,
 				BC1ED3362C33E37E00BFD44A /* ViewController.swift */,
-				BC1ED3382C33E37E00BFD44A /* Main.storyboard */,
 				BC1ED33B2C33E38000BFD44A /* Assets.xcassets */,
 				BC1ED33D2C33E38000BFD44A /* LaunchScreen.storyboard */,
 				BC1ED3402C33E38000BFD44A /* Info.plist */,
@@ -83,6 +90,13 @@
 			dependencies = (
 			);
 			name = Reminder;
+			packageProductDependencies = (
+				BC1ED3472C33E47500BFD44A /* RealmSwift */,
+				BC1ED34A2C33E47F00BFD44A /* SnapKit */,
+				BC1ED34D2C33E48800BFD44A /* Toast */,
+				BC1ED3502C33E49000BFD44A /* Then */,
+				BC1ED3532C33E49800BFD44A /* IQKeyboardManagerSwift */,
+			);
 			productName = Reminder;
 			productReference = BC1ED32F2C33E37E00BFD44A /* Reminder.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +125,13 @@
 				Base,
 			);
 			mainGroup = BC1ED3262C33E37E00BFD44A;
+			packageReferences = (
+				BC1ED3462C33E47500BFD44A /* XCRemoteSwiftPackageReference "realm-swift" */,
+				BC1ED3492C33E47F00BFD44A /* XCRemoteSwiftPackageReference "SnapKit" */,
+				BC1ED34C2C33E48800BFD44A /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				BC1ED34F2C33E49000BFD44A /* XCRemoteSwiftPackageReference "Then" */,
+				BC1ED3522C33E49800BFD44A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+			);
 			productRefGroup = BC1ED3302C33E37E00BFD44A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,7 +148,6 @@
 			files = (
 				BC1ED33C2C33E38000BFD44A /* Assets.xcassets in Resources */,
 				BC1ED33F2C33E38000BFD44A /* Base in Resources */,
-				BC1ED33A2C33E37E00BFD44A /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,14 +167,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BC1ED3382C33E37E00BFD44A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BC1ED3392C33E37E00BFD44A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BC1ED33D2C33E38000BFD44A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -296,9 +308,9 @@
 				INFOPLIST_FILE = Reminder/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,9 +318,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = tunastorm.Reminder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -323,9 +339,9 @@
 				INFOPLIST_FILE = Reminder/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -333,9 +349,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = tunastorm.Reminder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -361,6 +381,77 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BC1ED3462C33E47500BFD44A /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.52.1;
+			};
+		};
+		BC1ED3492C33E47F00BFD44A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		BC1ED34C2C33E48800BFD44A /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+		BC1ED34F2C33E49000BFD44A /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		BC1ED3522C33E49800BFD44A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BC1ED3472C33E47500BFD44A /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC1ED3462C33E47500BFD44A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		BC1ED34A2C33E47F00BFD44A /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC1ED3492C33E47F00BFD44A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		BC1ED34D2C33E48800BFD44A /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC1ED34C2C33E48800BFD44A /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+		BC1ED3502C33E49000BFD44A /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC1ED34F2C33E49000BFD44A /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		BC1ED3532C33E49800BFD44A /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC1ED3522C33E49800BFD44A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BC1ED3272C33E37E00BFD44A /* Project object */;
 }
