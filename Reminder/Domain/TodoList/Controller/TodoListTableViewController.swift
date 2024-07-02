@@ -8,7 +8,7 @@
 import UIKit
 
 
-extension TodoListViewController: UITableViewDelegate, UITableViewDataSource /*UITableViewDataSourcePrefetching*/ {
+extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return TodoListHeaderView()
@@ -45,9 +45,4 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource /*U
         }
         return UISwipeActionsConfiguration(actions: [delete])
     }
-    
-//    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-//        print(#function, "hi")
-//    }
-    
 }
