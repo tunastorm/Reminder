@@ -10,6 +10,10 @@ import UIKit
 
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource /*UITableViewDataSourcePrefetching*/ {
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return TodoListHeaderView()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list?.count ?? 0
     }

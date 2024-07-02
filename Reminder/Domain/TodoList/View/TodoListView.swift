@@ -8,11 +8,15 @@
 import UIKit
 
 import SnapKit
+import Then
 
 
 class TodoListView: BaseView {
     
-    let tableView = UITableView()
+    let tableView = UITableView().then {
+        $0.separatorInset = .init(top: 0, left: 60.0, bottom: 0, right: 0)
+        $0.separatorColor = .darkGray
+    }
     
     override func configHierarchy() {
         self.addSubview(tableView)

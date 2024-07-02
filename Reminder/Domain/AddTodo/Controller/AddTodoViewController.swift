@@ -8,16 +8,32 @@
 import UIKit
 
 
-class AddTodoViewController: BaseViewController<AddTodoView> {
+protocol AddTodoViewDelegate {
+    func presentCalendarView()
+}
 
+
+
+class AddTodoViewController: BaseViewController<AddTodoView> {
+    
+    var deadlineDate: Date? {
+        didSet {
+            print("선택한 날짜: ", deadlineDate)
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        rootView.delegate = self
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configNavigationbar()
+        configNavigationbar(bgColor: .darkGray)
     }
     
-    override func configNavigationbar() {
-        super.configNavigationbar()
+    override func configNavigationbar(bgColor: UIColor) {
+        super.configNavigationbar(bgColor: bgColor)
         let leftBarbuttonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancleAddTodo))
         let rightBarbuttonITem = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(excuteAddTodo))
         rightBarbuttonITem.tintColor = .lightGray
@@ -41,6 +57,7 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
             return
         }
         let contents: String? = rootView.contentsTextView.text
+        let date = deadlineDate
         let tag = "테스트"
         let priority = Int.random(in: 0...5)
         let imageId: Int? = nil
@@ -48,12 +65,26 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
         print(#function, "하이")
         do {
             try realm.write {
-                let todo = TodoModel(title: text, contents: contents, tag: tag, priority: priority, imageId: imageId)
+                let todo = TodoModel(title: text, contents: contents, deadline: deadlineDate, tag: tag, priority: priority, imageId: imageId)
                 realm.add(todo)
             }
             cancleAddTodo()
         } catch {
             print(error)
         }
+    }
+}
+
+extension AddTodoViewController: AddTodoViewDelegate {
+    func presentCalendarView() {
+        let vc = AddTodoCalendarViewController()
+        vc.delegate = self
+        presentView(view: vc, presentationStyle: .formSheet, animated: true)
+    }
+}
+
+extension AddTodoViewController: DataReceiveDelegate {
+    func receiveData<T>(data: T) {
+        deadlineDate = data as! Date
     }
 }

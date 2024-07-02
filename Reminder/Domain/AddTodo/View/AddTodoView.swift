@@ -12,6 +12,8 @@ import Then
 
 class AddTodoView: BaseView {
     
+    var delegate: AddTodoViewDelegate?
+    
     let titleContentsView = UIView().then {
         $0.backgroundColor = .gray
         $0.layer.cornerRadius = 10
@@ -104,9 +106,18 @@ class AddTodoView: BaseView {
     
     override func configView() {
         self.backgroundColor = .darkGray
+        deadlineView.setButton.addTarget(self, action: #selector(showCalendar), for: .touchUpInside)
     }
     
     func inputErrorEvent() {
         makeBasicToast(message: "제목을 입력해주세요", duration: 3.0, position: .center)
+    }
+    
+    @objc func showCalendar() {
+        guard let delegate else {
+            
+            return
+        }
+        delegate.presentCalendarView()
     }
 }

@@ -12,9 +12,9 @@ protocol ViewTransition {
    
     func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool)
     
-    func presentAfterView(view: UIViewController, presentationStyle: UIModalPresentationStyle, animated: Bool)
+    func presentView(view: UIViewController, presentationStyle: UIModalPresentationStyle, animated: Bool)
     
-    func navigationPresentAfterView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool)
+    func navigationPresentView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool)
     
     func popBeforeView(animated: Bool)
    
@@ -33,12 +33,12 @@ extension UIViewController: ViewTransition {
         self.navigationController?.pushViewController(view, animated: animated)
     }
     
-    func presentAfterView(view: UIViewController, presentationStyle: UIModalPresentationStyle, animated: Bool) {
+    func presentView(view: UIViewController, presentationStyle: UIModalPresentationStyle, animated: Bool) {
         view.modalPresentationStyle = presentationStyle
         self.present(view, animated: animated)
     }
     
-    func navigationPresentAfterView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool) {
+    func navigationPresentView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool) {
         let nav = UINavigationController(rootViewController: view)
         nav.modalPresentationStyle = style
         present(nav, animated: animated)

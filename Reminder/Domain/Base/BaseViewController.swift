@@ -25,11 +25,19 @@ class BaseViewController<T:BaseView>: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configNavigationbar()
+        configNavigationbar(bgColor: .black)
     }
     
-    func configNavigationbar() {
-        navigationItem.backButtonTitle = nil
+    func configNavigationbar(bgColor: UIColor) {
+        navigationItem.backButtonTitle = ""
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = bgColor
+        appearance.shadowImage = UIImage()
+        appearance.shadowColor = .clear
+        appearance.titleTextAttributes = textAttributes
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     func configInteraction() {
