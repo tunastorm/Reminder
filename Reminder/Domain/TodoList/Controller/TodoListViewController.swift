@@ -11,8 +11,6 @@ import RealmSwift
 
 class TodoListViewController: BaseViewController<TodoListView> {
     
-    let realm = try! Realm()
-    
     var list: Results<TodoModel>?
     
     override func viewDidLoad() {

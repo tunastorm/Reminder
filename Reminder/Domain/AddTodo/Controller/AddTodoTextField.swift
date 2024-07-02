@@ -31,7 +31,7 @@ extension AddTodoViewController: UITextFieldDelegate {
         }
         
         let title = TextInputFilter().removeSpace(text)
-        if textField == rootView.titleTextField && (title == " " || title.isEmpty) {
+        if textField == rootView.titleTextField && !TextInputFilter().filterSerialSpace(text) {
             textField.placeholder = "제목"
         }
         return true

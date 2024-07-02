@@ -132,6 +132,7 @@
 		BC1ED3562C33E5AC00BFD44A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				BC1ED3962C34296900BFD44A /* Database */,
 				BC1ED3932C341B1700BFD44A /* Util */,
 				BC1ED38A2C34149000BFD44A /* Extension */,
 				BC1ED3722C33EE4900BFD44A /* Protocol */,
@@ -143,7 +144,6 @@
 		BC1ED3572C33E5B300BFD44A /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
-				BC1ED3582C33E5CB00BFD44A /* Model */,
 				BC1ED3592C33E5D000BFD44A /* View */,
 				BC1ED35A2C33E5D900BFD44A /* Controller */,
 			);
@@ -239,6 +239,7 @@
 		BC1ED3802C33F74400BFD44A /* AddTodo */ = {
 			isa = PBXGroup;
 			children = (
+				BC1ED3582C33E5CB00BFD44A /* Model */,
 				BC1ED3812C33F75000BFD44A /* View */,
 				BC1ED3832C33F77100BFD44A /* Controller */,
 			);
@@ -279,6 +280,13 @@
 				BC1ED3942C341B4900BFD44A /* TextInputFilter.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		BC1ED3962C34296900BFD44A /* Database */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Database;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

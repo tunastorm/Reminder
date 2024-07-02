@@ -19,6 +19,7 @@ class MainViewController: BaseViewController<MainView>{
     override func viewDidLoad() {
         super.viewDidLoad()
         rootView.delegate = self
+        print(#function, realm.configuration.fileURL)
     }
         
 }

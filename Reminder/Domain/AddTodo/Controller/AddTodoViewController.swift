@@ -9,7 +9,7 @@ import UIKit
 
 
 class AddTodoViewController: BaseViewController<AddTodoView> {
-    
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,6 +36,24 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
     }
     
     @objc func excuteAddTodo() {
-        print(#function)
+        guard let text = rootView.titleTextField.text, TextInputFilter().filterSerialSpace(text) else {
+            rootView.inputErrorEvent()
+            return
+        }
+        let contents: String? = rootView.contentsTextView.text
+        let tag = "테스트"
+        let priority = Int.random(in: 0...5)
+        let imageId: Int? = nil
+        
+        print(#function, "하이")
+        do {
+            try realm.write {
+                let todo = TodoModel(title: text, contents: contents, tag: tag, priority: priority, imageId: imageId)
+                realm.add(todo)
+            }
+            cancleAddTodo()
+        } catch {
+            print(error)
+        }
     }
 }

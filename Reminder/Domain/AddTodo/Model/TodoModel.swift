@@ -10,7 +10,7 @@ import RealmSwift
 
 
 class TodoModel: Object {
-    @Persisted(primaryKey: true) var id: Int
+    @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var title: String
     @Persisted var contents: String?
     @Persisted var deadline: Date?
@@ -18,9 +18,8 @@ class TodoModel: Object {
     @Persisted var priority: Int
     @Persisted var imageId: Int?
     
-    convenience init(id: Int, title: String, contents: String? = nil, deadline: Date? = nil, tag: String, priority: Int, imageId: Int? = nil) {
+    convenience init(title: String, contents: String? = nil, deadline: Date? = nil, tag: String, priority: Int, imageId: Int? = nil) {
         self.init()
-        self.id = id
         self.title = title
         self.contents = contents
         self.deadline = deadline
@@ -29,7 +28,7 @@ class TodoModel: Object {
         self.imageId = imageId
     }
     
-    enum Column: String {
+    enum Column: String, CaseIterable {
         case id
         case title
         case contents

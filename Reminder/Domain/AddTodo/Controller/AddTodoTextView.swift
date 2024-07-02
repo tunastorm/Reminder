@@ -17,7 +17,11 @@ extension AddTodoViewController: UITextViewDelegate {
     }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        if textView == rootView.contentsTextView {
+        guard let text = textView.text else {
+            print(#function, "입력텍스트 없음")
+            return true
+        }
+        if textView == rootView.contentsTextView && !TextInputFilter().filterSerialSpace(text) {
             textView.text = "내용"
         }
         return true

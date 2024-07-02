@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 class BaseViewController<T:BaseView>: UIViewController {
         
     var rootView = T()
+    let realm = try! Realm()
     
     override func loadView() {
         view = rootView

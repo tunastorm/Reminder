@@ -105,4 +105,8 @@ class AddTodoView: BaseView {
     override func configView() {
         self.backgroundColor = .darkGray
     }
+    
+    func inputErrorEvent() {
+        makeBasicToast(message: "제목을 입력해주세요", duration: 3.0, position: .center)
+    }
 }
