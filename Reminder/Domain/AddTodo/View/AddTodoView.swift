@@ -110,7 +110,8 @@ class AddTodoView: BaseView {
     }
     
     func inputErrorEvent() {
-        makeBasicToast(message: "제목을 입력해주세요", duration: 3.0, position: .center)
+        makeToast("제목을 입력해주세요", duration: 3.0, position: .center)
+//        makeBasicToast(message: "제목을 입력해주세요", duration: 3.0, position: .center)
     }
     
     @objc func showCalendar() {
