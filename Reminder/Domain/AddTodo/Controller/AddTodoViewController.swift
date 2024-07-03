@@ -14,7 +14,7 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
     
     var todo = TodoModel() {
         didSet {
-            configItem()
+            rootView.configItem(todo: todo, isEditView: isEditView)
         }
     }
 //    var deadline: Date?
@@ -24,60 +24,30 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationbar(bgColor: .darkGray)
-        editingToggle()
+        rootView.editingToggle(isEditView: isEditView, todo: todo)
     }
     
     override func configNavigationbar(bgColor: UIColor) {
         super.configNavigationbar(bgColor: bgColor)
-        let leftBarbuttonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancleAddTodo))
-        let rightBarbuttonITem = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(excuteAddTodo))
-        rightBarbuttonITem.tintColor = .lightGray
-        navigationItem.leftBarButtonItem = leftBarbuttonItem
-        navigationItem.rightBarButtonItem = rightBarbuttonITem
-        navigationItem.title = "새로운 할 일"
+        navigationItem.rightBarButtonItem?.isHidden = !isEditView
+        navigationItem.leftBarButtonItem?.isHidden = !isEditView
+        if isEditView {
+            let leftBarbuttonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancleAddTodo))
+            let rightBarbuttonITem = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(excuteAddTodo))
+            rightBarbuttonITem.tintColor = .lightGray
+            navigationItem.leftBarButtonItem = leftBarbuttonItem
+            navigationItem.rightBarButtonItem = rightBarbuttonITem
+            navigationItem.title = "새로운 할 일"
+        } else {
+            navigationItem.title = todo.title
+        }
     }
+    
     
     override func configInteraction() {
         rootView.delegate = self
         rootView.titleTextField.delegate = self
         rootView.contentsTextView.delegate = self
-    }
-    
-    
-    func editingToggle() {
-        navigationItem.rightBarButtonItem?.isHidden = !isEditView
-        navigationItem.leftBarButtonItem?.isHidden = !isEditView
-        rootView.titleTextField.isUserInteractionEnabled = isEditView
-        rootView.contentsTextView.isUserInteractionEnabled = isEditView
-        rootView.deadlineView.setButton.isHidden = !isEditView
-        rootView.tagView.setButton.isHidden = !isEditView
-        rootView.priorityView.setButton.isHidden = !isEditView
-        rootView.addImageView.setButton.isHidden = !isEditView
-        if !isEditView {
-            configItem()
-        }
-    }
-    
-    func configItem() {
-        if !todo.title.isEmpty {
-            rootView.titleTextField.text = todo.title
-        }
-        if let contents = todo.contents {
-            rootView.contentsTextView.text = contents
-        }
-        if let deadline = todo.deadline {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy. M. d."
-            rootView.deadlineView.selectedTextField.placeholder = dateFormatter.string(from: deadline)
-        }
-        if !todo.tag.isEmpty {
-            rootView.tagView.selectedTextField.placeholder = "#\(todo.tag)"
-        }
-        if todo.priority >= 1 && todo.priority <= 5 {
-            print(#function, todo.priority)
-            let krPriority = TodoModel.Column.priority.allLevels[todo.priority-1].krLevel
-            rootView.priorityView.selectedTextField.placeholder = krPriority
-        }
     }
     
     @objc func cancleAddTodo() {
@@ -152,6 +122,6 @@ extension AddTodoViewController: DataReceiveDelegate {
             todo.priority = priority.rawValue
         default: return
         }
-        configItem()
+        rootView.configItem(todo: todo, isEditView: isEditView)
     }
 }

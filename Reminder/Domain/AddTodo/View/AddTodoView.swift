@@ -115,6 +115,39 @@ class AddTodoView: BaseView {
         priorityView.setButton.addTarget(self, action: #selector(goInputViewController), for: .touchUpInside)
     }
     
+    func configItem(todo: TodoModel, isEditView: Bool) {
+        if contentsTextView.text == "메모", !isEditView, let contents = todo.contents {
+           contentsTextView.text = contents
+        }
+        if deadlineView.selectedTextField.placeholder == nil, let deadline = todo.deadline {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy. M. d."
+            deadlineView.selectedTextField.placeholder = dateFormatter.string(from: deadline)
+        }
+        if tagView.selectedTextField.placeholder == nil, !todo.tag.isEmpty {
+            tagView.selectedTextField.placeholder = "#\(todo.tag)"
+        }
+        if priorityView.selectedTextField.placeholder == nil, (todo.priority >= 1 && todo.priority <= 5) {
+            print(#function, todo.priority)
+            let krPriority = TodoModel.Column.priority.allLevels[todo.priority-1].krLevel
+            priorityView.selectedTextField.placeholder = krPriority
+        }
+    }
+    
+    func editingToggle(isEditView: Bool, todo: TodoModel) {
+        titleTextField.isUserInteractionEnabled = isEditView
+        contentsTextView.isUserInteractionEnabled = isEditView
+        deadlineView.setButton.isHidden = !isEditView
+        tagView.setButton.isHidden = !isEditView
+        priorityView.setButton.isHidden = !isEditView
+        addImageView.setButton.isHidden = !isEditView
+        if !isEditView {
+            configItem(todo: todo, isEditView: isEditView)
+            titleTextField.text = "메모"
+            contentsTextView.textColor = .systemGray5
+        }
+    }
+    
     func callCreateError(column: TodoModel.Column) {
         makeToast(column.CreateError, duration: 3.0, position: .bottom)
     }
