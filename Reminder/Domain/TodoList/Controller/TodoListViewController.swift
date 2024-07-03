@@ -11,6 +11,8 @@ import RealmSwift
 
 final class TodoListViewController: BaseViewController<TodoListView> {
 
+    var delegate: UpdateListDelegate?
+    
     var headerName: String?
     
     var list: Results<TodoModel>? {

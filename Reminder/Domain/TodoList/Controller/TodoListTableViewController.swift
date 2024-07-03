@@ -52,6 +52,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
             try! self.realm.write {
                 self.realm.delete(self.list![indexPath.row])
             }
+            self.delegate?.updateTodoList()
             self.fatchRealm()
         }
         return UISwipeActionsConfiguration(actions: [delete])

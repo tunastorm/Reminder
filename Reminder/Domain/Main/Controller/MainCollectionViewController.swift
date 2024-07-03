@@ -28,6 +28,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = TodoListViewController()
+        vc.delegate = self
         vc.headerName = listinfo?[indexPath.row].listName
         vc.list = listVector[indexPath.row]
         pushAfterView(view: vc, backButton: true, animated: true)
