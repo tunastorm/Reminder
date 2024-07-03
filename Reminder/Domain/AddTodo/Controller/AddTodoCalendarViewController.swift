@@ -8,7 +8,7 @@
 import UIKit
 
 
-class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarView> {
+final class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarView> {
     
     var delegate: DataReceiveDelegate?
     

@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 
-class AddTodoItem: BaseView {
+final class AddTodoItem: BaseView {
 
     let itemName = UILabel().then {
         $0.textColor = .systemGray5

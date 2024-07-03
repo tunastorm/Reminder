@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 
-class AddTodoCalendarView: BaseView {
+final class AddTodoCalendarView: BaseView {
     
     lazy var calendarView: UICalendarView = {
         var view = UICalendarView()

@@ -8,7 +8,7 @@
 import UIKit
 
 
-class AddTodoPriorityViewController: BaseViewController<AddTodoPriorityView> {
+final class AddTodoPriorityViewController: BaseViewController<AddTodoPriorityView> {
     
     var delegate: DataReceiveDelegate?
     

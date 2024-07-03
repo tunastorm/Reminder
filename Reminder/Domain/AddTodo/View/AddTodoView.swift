@@ -10,11 +10,11 @@ import SnapKit
 import Then
 
 
-class AddTodoView: BaseView {
+final class AddTodoView: BaseView {
     
     var delegate: ViewTransitionDelegate?
     
-    let titleContentsView = UIView().then {
+    private let titleContentsView = UIView().then {
         $0.backgroundColor = .gray
         $0.layer.cornerRadius = 10
         $0.layer.masksToBounds = true
@@ -27,7 +27,7 @@ class AddTodoView: BaseView {
         $0.backgroundColor = .clear
     }
     
-    let lineview = UIView().then {
+    private let lineview = UIView().then {
         $0.backgroundColor = .lightGray
     }
     
@@ -50,7 +50,7 @@ class AddTodoView: BaseView {
         $0.itemName.text = "우선순위"
         $0.setButton.tag = 2
     }
-    let addImageView = AddTodoItem().then {
+    private let addImageView = AddTodoItem().then {
         $0.itemName.text = "이미지 추가"
         $0.setButton.tag = 3
     }

@@ -9,7 +9,9 @@ import UIKit
 import RealmSwift
 
 
-class TodoListViewController: BaseViewController<TodoListView> {
+final class TodoListViewController: BaseViewController<TodoListView> {
+    
+    var headerName: String?
     
     var list: Results<TodoModel>? {
         didSet {

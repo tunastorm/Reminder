@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 
-class AddTodoTagView: BaseView {
+final class AddTodoTagView: BaseView {
     
     var delegate: AddTodoTagViewDelegate?
     

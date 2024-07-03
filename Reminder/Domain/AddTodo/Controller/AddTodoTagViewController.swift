@@ -13,7 +13,7 @@ protocol AddTodoTagViewDelegate {
 }
 
 
-class AddTodoTagViewController: BaseViewController<AddTodoTagView> {
+final class AddTodoTagViewController: BaseViewController<AddTodoTagView> {
     
     var delegate: DataReceiveDelegate?
     

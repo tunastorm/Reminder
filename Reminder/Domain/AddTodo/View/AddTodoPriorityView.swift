@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 
-class AddTodoPriorityView: BaseView {
+final class AddTodoPriorityView: BaseView {
     
     let label = UILabel().then {
         $0.text = "설정할 우선순위를 선택하세요"

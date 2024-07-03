@@ -20,6 +20,7 @@ class BaseViewController<T:BaseView>: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configDataBase()
         configInteraction()
     }
     
@@ -41,6 +42,10 @@ class BaseViewController<T:BaseView>: UIViewController {
     }
     
     func configInteraction() {
+        
+    }
+    
+    func configDataBase() {
         
     }
     

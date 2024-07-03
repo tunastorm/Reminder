@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 
-class TodoListView: BaseView {
+final class TodoListView: BaseView {
     
     let tableView = UITableView().then {
         $0.separatorInset = .init(top: 0, left: 60.0, bottom: 0, right: 0)

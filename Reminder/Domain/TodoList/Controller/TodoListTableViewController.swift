@@ -11,7 +11,12 @@ import UIKit
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return TodoListHeaderView()
+        guard let headerName else {
+            return UIView()
+        }
+        let headerView = HeaderView()
+        headerView.configHeaderLabel(title: headerName)
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

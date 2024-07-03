@@ -8,7 +8,7 @@
 import UIKit
 
 
-class AddTodoViewController: BaseViewController<AddTodoView> {
+final class AddTodoViewController: BaseViewController<AddTodoView> {
     
     var isEditView = true
     

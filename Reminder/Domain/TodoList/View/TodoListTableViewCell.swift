@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 
-class TodoListTableViewCell: BaseTableViewCell {
+final class TodoListTableViewCell: BaseTableViewCell {
     
     let radioButton = UIButton().then {
         $0.titleLabel?.font = .systemFont(ofSize: 0)

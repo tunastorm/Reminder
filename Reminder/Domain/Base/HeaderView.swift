@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 
-class TodoListHeaderView: BaseView {
+final class HeaderView: BaseView {
     
     let headerLabel = UILabel().then {
         $0.font = .boldSystemFont(ofSize: 30)

@@ -9,16 +9,18 @@ import Foundation
 import RealmSwift
 
 
-class TodoModel: Object {
+final class TodoModel: Object {
     @Persisted(primaryKey: true) var id: ObjectId
+    let ofTodoList = LinkingObjects(fromType: TodoListModel.self, property: "id")
     @Persisted var title: String
     @Persisted var contents: String?
     @Persisted var deadline: Date?
     @Persisted var tag: String
     @Persisted var priority: Int
     @Persisted var imageId: Int?
+    @Persisted var isLike: Bool
     
-    convenience init(title: String, contents: String? = nil, deadline: Date? = nil, tag: String, priority: Int, imageId: Int? = nil) {
+    convenience init(title: String, contents: String? = nil, deadline: Date? = nil, tag: String, priority: Int, imageId: Int? = nil, isLike: Bool = false) {
         self.init()
         self.title = title
         self.contents = contents
@@ -26,6 +28,7 @@ class TodoModel: Object {
         self.tag = tag
         self.priority = priority
         self.imageId = imageId
+        self.isLike = isLike
     }
     
     enum Column: String, CaseIterable {
