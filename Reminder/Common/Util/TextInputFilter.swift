@@ -25,7 +25,7 @@ class TextInputFilter {
         print(#function, trimed)
         let replaced = trimed.replacingOccurrences(of: serialSpaceFilter, with: "")
         print(#function, replaced)
-        return replaced == " " ? nil : replaced
+        return (replaced == " " || replaced == "") ? nil : replaced
     }
     
     func tagFilter(_ inputText: String) -> String? {
@@ -33,9 +33,10 @@ class TextInputFilter {
             return nil
         }
         let removedShop = removedSpace.replacingOccurrences(of: "#", with: "")
-        guard !removedShop.isEmpty else {
+        guard (removedShop  != " " && removedShop != "") else {
             return nil
         }
+        print(#function, "tag 공백검사 통과 ", removedShop)
         return removedShop
     }
     

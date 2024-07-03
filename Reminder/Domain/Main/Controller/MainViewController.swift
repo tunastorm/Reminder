@@ -14,14 +14,18 @@ protocol MainViewDelegate {
     func goTodoListViewController()
 }
 
+protocol UpdateListDelegate {
+    func updateTodoList()
+}
 
-final class MainViewController: BaseViewController<MainView>{
+
+final class MainViewController: BaseViewController<MainView>, UpdateListDelegate {
+ 
+    var listinfo: Results<TodoListModel>?
     
-    var list: Results<TodoListModel>? {
-        didSet {
-            rootView.collectionView.reloadData()
-        }
-    }
+    var listVector: [Results<TodoModel>] = []
+    
+    var today: Date?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -45,8 +49,9 @@ final class MainViewController: BaseViewController<MainView>{
     }
     
     override func configDataBase() {
+        configToday()
+        configListInfo()
         configTodoList()
-        print(#function, list)
     }
     
     override func configInteraction() {
@@ -57,37 +62,51 @@ final class MainViewController: BaseViewController<MainView>{
                                          forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
     }
     
-    func configTodoList() {
-        do {
-            try realm.write {
-                list = realm.objects(TodoListModel.self)
-            }
-            
-        } catch {
-            makeBasicToast(message: "목록을 불러오지 못햇습니다. 고객센터로 문의하세요.", duration: 3.0, position: .bottom)
-        }
-        print(#function, list, list?.count)
-        guard let list, list.count > 0 else {
-            initialConfig()
+    func configToday() {
+        let dateComponent = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        today = Calendar.current.date(from: dateComponent)
+    }
+    
+    func updateTodoList() {
+        listVector[2] = realm.objects(TodoModel.self)
+        rootView.collectionView.reloadItems(at: [IndexPath(row: 2, section: 0)])
+        guard let today else {
             return
         }
+        let todayList = realm.objects(TodoModel.self).where { $0.deadline == today}
+        let plannedList = realm.objects(TodoModel.self).where { $0.deadline > today}
+        let likedList = realm.objects(TodoModel.self).where { $0.isLike == true }
+        
+        listVector[0] = todayList
+        rootView.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
+        
+        listVector[1] = plannedList
+        rootView.collectionView.reloadItems(at: [IndexPath(row: 1, section: 0)])
+    
+        listVector[3] = likedList
+        rootView.collectionView.reloadItems(at: [IndexPath(row: 3, section: 0)])
     }
     
-    func initialConfig() {
-        print(#function, list)
-        do {
-            try realm.write {
-                TodoListModel.defaultTodolist.forEach { list in
-                    let todoList = TodoListModel(value: list)
-                    realm.add(todoList)
-                }
-            }
-            configTodoList()
-        } catch {
-            makeBasicToast(message: "초기 설정에 실패하였습니다. 고객센터로 문의하세요", duration: 3.0, position: .bottom)
-        }
+    
+    func configTodoList() {
+        let dateComponent = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        let today = Calendar.current.date(from: dateComponent)
+        
+        listVector.append(realm.objects(TodoModel.self).where { $0.deadline == today})
+        rootView.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
+        listVector.append(realm.objects(TodoModel.self).where { $0.deadline > today})
+        rootView.collectionView.reloadItems(at: [IndexPath(row: 1, section: 0)])
+        listVector.append(realm.objects(TodoModel.self))
+        rootView.collectionView.reloadItems(at: [IndexPath(row: 2, section: 0)])
+        listVector.append(realm.objects(TodoModel.self).where { $0.isLike == true })
+        rootView.collectionView.reloadItems(at: [IndexPath(row: 3, section: 0)])
+        
+        print(#function, listVector)
     }
     
+    func configListInfo() {
+        listinfo = realm.objects(TodoListModel.self)
+    }
     @objc func settingButtonClicked() {
         print(#function)
     }
@@ -97,7 +116,8 @@ extension MainViewController: MainViewDelegate {
     
     func goAddTodoViewController() {
         let nextVC = AddTodoViewController()
-        navigationPresentView(view: nextVC, presentationStyle: nil, animated: true)
+        nextVC.delegate = self
+        self.navigationPresentView(view: nextVC, presentationStyle: nil, animated: true)
     }
     
     func goTodoListViewController() {
@@ -106,4 +126,3 @@ extension MainViewController: MainViewDelegate {
     }
     
 }
-

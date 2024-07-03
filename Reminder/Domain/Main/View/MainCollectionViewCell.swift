@@ -69,10 +69,10 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
         contentView.layer.masksToBounds = true
     }
     
-    func configCell(data: TodoListModel) {
+    func configCell(data: TodoListModel, count: Int) {
         iconView.backgroundColor = data.allColors[data.bgColor].color
         iconImageView.image = UIImage(systemName: data.iconPath)?.withTintColor(.white, renderingMode: .alwaysTemplate)
         nameLabel.text = data.listName
-        countLabel.text = String(data.todoCount)
+        countLabel.text = String(count)
     }
 }

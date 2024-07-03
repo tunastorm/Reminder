@@ -12,26 +12,24 @@ import RealmSwift
 class TodoListModel: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var listName: String
-    @Persisted var todoCount: Int
     @Persisted var iconPath: String
     @Persisted var bgColor: Int
-    let todos = List<TodoModel>()
+    @Persisted var todoCount: Int
     
-    convenience init(listName: String, todoCount: Int, iconPath: String, bgColor: Int) {
+    convenience init(listName: String, iconPath: String, bgColor: Int, todoCount: Int) {
         self.init()
         self.listName = listName
-        self.todoCount = todoCount
         self.iconPath = iconPath
         self.bgColor = bgColor
+        self.todoCount = todoCount
     }
     
     enum Column: String {
         case id
         case listName
-        case todoCount
         case icon
         case bgColor
-        case todos
+        case todoCount
     }
     
     enum BackgroundColor: Int, CaseIterable {
@@ -62,11 +60,11 @@ class TodoListModel: Object {
     }
     
     
-    static let defaultTodolist = [
-        TodoListModel(listName: "오늘", todoCount: 0, iconPath: "calendar.badge.clock", bgColor: 2),
-        TodoListModel(listName: "예정", todoCount: 0, iconPath: "calendar", bgColor: 3),
-        TodoListModel(listName: "전체", todoCount: 0, iconPath: "tray", bgColor: 0),
-        TodoListModel(listName: "깃발 표시", todoCount: 0, iconPath: "flag.fill", bgColor: 4),
-        TodoListModel(listName: "완료됨", todoCount: 0, iconPath: "checkmark", bgColor: 1),
-    ]
+//    static let defaultTodolist = [
+//        TodoListModel(listName: "오늘", iconPath: "calendar.badge.clock", bgColor: 2),
+//        TodoListModel(listName: "예정", iconPath: "calendar", bgColor: 3),
+//        TodoListModel(listName: "전체", iconPath: "tray", bgColor: 0),
+//        TodoListModel(listName: "깃발 표시",  iconPath: "flag.fill", bgColor: 4),
+//        TodoListModel(listName: "완료됨", iconPath: "checkmark", bgColor: 1),
+//    ]
 }

@@ -10,6 +10,10 @@ import UIKit
 
 final class AddTodoViewController: BaseViewController<AddTodoView> {
     
+    var delegate: UpdateListDelegate?
+    
+    var listId: Int?
+    
     var isEditView = true
     
     var todo = TodoModel() {
@@ -50,10 +54,6 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
         rootView.contentsTextView.delegate = self
     }
     
-    @objc func cancleAddTodo() {
-        dismiss(animated: true)
-    }
-    
     @objc func excuteAddTodo() {
         let textFilter = TextInputFilter()
         guard let text = rootView.titleTextField.text, textFilter.filterSerialSpace(text) else {
@@ -64,6 +64,7 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
             rootView.callCreateError(column: TodoModel.Column.tag)
             return
         }
+        print(#function, tag)
         guard todo.priority >= 1 && todo.priority <= 5 else {
             rootView.callCreateError(column: TodoModel.Column.priority)
             return
@@ -76,10 +77,15 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
                 let todo = TodoModel(value: todo)
                 realm.add(todo)
             }
+            delegate?.updateTodoList()
             cancleAddTodo()
         } catch {
             print(error)
         }
+    }
+    
+    @objc func cancleAddTodo() {
+        dismiss(animated: true)
     }
 }
 

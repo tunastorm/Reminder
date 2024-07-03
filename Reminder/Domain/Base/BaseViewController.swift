@@ -64,4 +64,27 @@ class BaseViewController<T:BaseView>: UIViewController {
         alert.addAction(cancel)
         present(alert, animated: true)
     }
+    
+    func showActionAlert(titleList: [String], complitionHandler: @escaping (UIAlertAction) -> Void) {
+        let alert = UIAlertController(title: nil,
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+        // 2.
+        
+        var actionList: [UIAlertAction] = []
+        titleList.forEach { title in
+            let action = UIAlertAction(title: title, style: .default, handler: complitionHandler)
+            actionList.append(action)
+        }
+        let cancle = UIAlertAction(title: "취소",
+                                   style: .cancel)
+        // 3. addAction 순서대로 좌->우, 상->하로 정렬
+        // 하지만 UIAlertAction의 style 파라미터에 정의된 스타일에 지정된 위치가 우선한다.
+        actionList.forEach { action in
+            alert.addAction(action)
+        }
+        alert.addAction(cancle)
+        // 4.
+        present(alert, animated: false)
+    }
 }
