@@ -40,15 +40,19 @@ class AddTodoView: BaseView {
     
     let deadlineView = AddTodoItem().then {
         $0.itemName.text = "마감일"
+        $0.setButton.tag = 0
     }
     let tagView = AddTodoItem().then {
         $0.itemName.text = "태그"
+        $0.setButton.tag = 1
     }
     let priorityView = AddTodoItem().then {
         $0.itemName.text = "우선순위"
+        $0.setButton.tag = 2
     }
     let addImageView = AddTodoItem().then {
         $0.itemName.text = "이미지 추가"
+        $0.setButton.tag = 3
     }
     
     
@@ -106,27 +110,26 @@ class AddTodoView: BaseView {
     
     override func configView() {
         self.backgroundColor = .darkGray
-        deadlineView.setButton.addTarget(self, action: #selector(showCalendar), for: .touchUpInside)
-        tagView.setButton.addTarget(self, action: #selector(), for: .touchUpInside)
-        
+        deadlineView.setButton.addTarget(self, action: #selector(goInputViewController), for: .touchUpInside)
+        tagView.setButton.addTarget(self, action: #selector(goInputViewController), for: .touchUpInside)
+        priorityView.setButton.addTarget(self, action: #selector(goInputViewController), for: .touchUpInside)
     }
     
-    func inputErrorEvent() {
-        makeToast("제목을 입력해주세요", duration: 3.0, position: .center)
-//        makeBasicToast(message: "제목을 입력해주세요", duration: 3.0, position: .center)
+    func callCreateError(column: TodoModel.Column) {
+        makeToast(column.CreateError, duration: 3.0, position: .bottom)
     }
     
-    @objc func showCalendar() {
+    @objc func goInputViewController(_ sender: UIButton) {
         guard let delegate else {
             return
         }
-        delegate.presentInputItemView()
+        switch sender.tag {
+        case 0: delegate.presentViewWithType(type: AddTodoCalendarViewController.self, presentationStyle: .none, animated: true)
+        case 1: delegate.presentViewWithType(type: AddTodoTagViewController.self, presentationStyle: .none, animated: true)
+        case 2: delegate.presentViewWithType(type: AddTodoPriorityViewController.self, presentationStyle: .none, animated: true)
+        case 3: makeToast("미구현 기능", duration: 3.0, position: .bottom)
+        default: return
+        }
     }
     
-    @objc func showTagInput() {
-        guard let delegate else {
-            return
-        }
-        presentView
-    }
 }

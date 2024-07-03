@@ -12,9 +12,9 @@ protocol ViewControllerTransition {
    
     func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool)
     
-    func presentView(view: UIViewController, presentationStyle: UIModalPresentationStyle, animated: Bool)
+    func presentView(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     
-    func navigationPresentView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool)
+    func navigationPresentView(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     
     func popBeforeViewController(animated: Bool)
    
@@ -33,14 +33,18 @@ extension UIViewController: ViewControllerTransition {
         self.navigationController?.pushViewController(view, animated: animated)
     }
     
-    func presentView(view: UIViewController, presentationStyle: UIModalPresentationStyle, animated: Bool) {
-        view.modalPresentationStyle = presentationStyle
+    func presentView(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool) {
+        if let presentationStyle {
+            view.modalPresentationStyle = presentationStyle
+        }
         self.present(view, animated: animated)
     }
     
-    func navigationPresentView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool) {
+    func navigationPresentView(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool) {
         let nav = UINavigationController(rootViewController: view)
-        nav.modalPresentationStyle = style
+        if let presentationStyle {
+            nav.modalPresentationStyle  = presentationStyle
+        }
         present(nav, animated: animated)
     }
     
@@ -59,6 +63,6 @@ extension UIViewController: ViewControllerTransition {
 
 protocol ViewTransitionDelegate {
     
-    func presentViewWithType(type: targetView.Type, presentationStyle: UIModalPresentationStyle, animated: Bool)
+    func presentViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     
 }

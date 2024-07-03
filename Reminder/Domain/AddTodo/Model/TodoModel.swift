@@ -36,6 +36,40 @@ class TodoModel: Object {
         case tag
         case priority
         case imageId
+        
+        
+        enum PriortyLevel: Int, CaseIterable {
+            case unimportant = 0
+            case changeable
+            case planned
+            case immediately
+            case critical
+            
+            var krLevel: String {
+                switch self {
+                case .unimportant:
+                    return "중요하지 않음"
+                case .changeable:
+                    return "유동적"
+                case .planned:
+                    return "계획됨"
+                case .immediately:
+                    return "즉시"
+                case .critical:
+                    return "필수"
+                }
+            }
+        }
+        
+        var allLevels: [PriortyLevel] {
+            return PriortyLevel.allCases
+        }
+        
+      
+        
+        var CreateError: String {
+            return "\(self)값이 없거나 유효하지 않습니다."
+        }
     }
 }
 

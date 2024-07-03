@@ -12,16 +12,12 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
 
     var deadline: Date?
     var tag: String?
-    var priority: Int?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        rootView.delegate = self
-    }
+    var priority: TodoModel.Column.PriortyLevel?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationbar(bgColor: .darkGray)
+        print(self.self, #function, "\(deadline), \(tag), \(priority)")
     }
     
     override func configNavigationbar(bgColor: UIColor) {
@@ -35,6 +31,7 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
     }
     
     override func configInteraction() {
+        rootView.delegate = self
         rootView.titleTextField.delegate = self
         rootView.contentsTextView.delegate = self
     }
@@ -45,13 +42,15 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
     
     @objc func excuteAddTodo() {
         guard let text = rootView.titleTextField.text, TextInputFilter().filterSerialSpace(text) else {
-            rootView.inputErrorEvent()
+            rootView.callCreateError(column: TodoModel.Column.title)
             return
         }
         guard let tag else {
+            rootView.callCreateError(column: TodoModel.Column.tag)
             return
         }
         guard let priority else {
+            rootView.callCreateError(column: TodoModel.Column.priority)
             return
         }
         let contents: String? = rootView.contentsTextView.text
@@ -60,7 +59,7 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
         print(#function, "하이")
         do {
             try realm.write {
-                let todo = TodoModel(title: text, contents: contents, deadline: deadline, tag: tag, priority: priority, imageId: imageId)
+                let todo = TodoModel(title: text, contents: contents, deadline: deadline, tag: tag, priority: priority.rawValue, imageId: imageId)
                 realm.add(todo)
             }
             cancleAddTodo()
@@ -72,8 +71,8 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
 
 extension AddTodoViewController: ViewTransitionDelegate {
   
-    func presentViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle, animated: Bool) where T : UIViewController {
-    
+    func presentViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle? = nil, animated: Bool) where T : UIViewController {
+        print( self.self, #function)
         // 어떻게 추상화하면 좋을까.
         var nextVC: UIViewController?
         switch T.self {
@@ -92,6 +91,7 @@ extension AddTodoViewController: ViewTransitionDelegate {
             default: return
         }
         guard let nextVC else {
+            print("nextVC 없음")
             return
         }
         presentView(view: nextVC, presentationStyle: presentationStyle, animated: animated)
@@ -103,7 +103,7 @@ extension AddTodoViewController: DataReceiveDelegate {
         switch T.self{
         case is Date.Type: deadline = data as? Date
         case is String.Type: tag = data as? String
-        case is Int.Type: priority = data as? Int
+        case is TodoModel.Column.PriortyLevel.Type: priority = data as? TodoModel.Column.PriortyLevel
         default: return
         }
     }

@@ -44,7 +44,9 @@ extension AddTodoCalendarViewController: UICalendarViewDelegate, UICalendarSelec
         }
         selection.setSelected(dateComponents, animated: true)
         selectedDate = dateComponents
-        let date = Calendar.current.date(from: dateComponents)
+        guard let selectedDate, let date = Calendar.current.date(from: selectedDate) else {
+            return
+        }
         reloadCalendarView(date: date)
         delegate.receiveData(data: date)
         dismiss(animated: true)

@@ -43,7 +43,7 @@ extension MainViewController: MainViewDelegate {
     
     func goAddTodoViewController() {
         let nextVC = AddTodoViewController()
-        navigationPresentView(view: nextVC, style: .automatic, animated: true)
+        navigationPresentView(view: nextVC, presentationStyle: nil, animated: true)
     }
     
     func goTodoListViewController() {
