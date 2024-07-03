@@ -44,6 +44,7 @@ class BaseViewController<T:BaseView>: UIViewController {
         
     }
     
+    
     func showAlert(title: String,message: String, ok: String?, handler: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         var cancleTitle = "확인"

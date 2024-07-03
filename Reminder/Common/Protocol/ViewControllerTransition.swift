@@ -8,7 +8,7 @@
 import UIKit
 
 
-protocol ViewTransition {
+protocol ViewControllerTransition {
    
     func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool)
     
@@ -16,7 +16,7 @@ protocol ViewTransition {
     
     func navigationPresentView(view: UIViewController, style: UIModalPresentationStyle, animated: Bool)
     
-    func popBeforeView(animated: Bool)
+    func popBeforeViewController(animated: Bool)
    
     func popToBeforeView(_ view: UIViewController, animated: Bool)
     
@@ -24,7 +24,7 @@ protocol ViewTransition {
 }
 
 
-extension UIViewController: ViewTransition {
+extension UIViewController: ViewControllerTransition {
 
     func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool) {
         if !backButton {
@@ -44,7 +44,7 @@ extension UIViewController: ViewTransition {
         present(nav, animated: animated)
     }
     
-    func popBeforeView(animated: Bool) {
+    func popBeforeViewController(animated: Bool) {
         navigationController?.popViewController(animated: animated)
     }
     
@@ -57,15 +57,8 @@ extension UIViewController: ViewTransition {
     }
 }
 
-protocol CellTransitionDelegate {
+protocol ViewTransitionDelegate {
     
-    func turnBackRootView()
+    func presentViewWithType(type: targetView.Type, presentationStyle: UIModalPresentationStyle, animated: Bool)
     
-    func pushAfterViewType<T: UIViewController>(type: T.Type, animated: Bool)
-    
-    func pushChangeSelectView()
-    
-    func popToRootViewFromCell(animated: Bool)
-    
-    func presentAlert(_ alert: UIAlertController, animated: Bool)
 }

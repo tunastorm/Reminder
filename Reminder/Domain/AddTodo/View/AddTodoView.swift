@@ -12,7 +12,7 @@ import Then
 
 class AddTodoView: BaseView {
     
-    var delegate: AddTodoViewDelegate?
+    var delegate: ViewTransitionDelegate?
     
     let titleContentsView = UIView().then {
         $0.backgroundColor = .gray
@@ -107,6 +107,7 @@ class AddTodoView: BaseView {
     override func configView() {
         self.backgroundColor = .darkGray
         deadlineView.setButton.addTarget(self, action: #selector(showCalendar), for: .touchUpInside)
+        tagView.setButton.addTarget(self, action: #selector(), for: .touchUpInside)
         
     }
     
@@ -117,9 +118,15 @@ class AddTodoView: BaseView {
     
     @objc func showCalendar() {
         guard let delegate else {
-            
             return
         }
-        delegate.presentCalendarView()
+        delegate.presentInputItemView()
+    }
+    
+    @objc func showTagInput() {
+        guard let delegate else {
+            return
+        }
+        presentView
     }
 }

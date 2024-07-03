@@ -8,19 +8,11 @@
 import UIKit
 
 
-protocol AddTodoViewDelegate {
-    func presentCalendarView()
-}
-
-
-
 class AddTodoViewController: BaseViewController<AddTodoView> {
-    
-    var deadlineDate: Date? {
-        didSet {
-            print("선택한 날짜: ", deadlineDate)
-        }
-    }
+
+    var deadline: Date?
+    var tag: String?
+    var priority: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,16 +48,19 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
             rootView.inputErrorEvent()
             return
         }
+        guard let tag else {
+            return
+        }
+        guard let priority else {
+            return
+        }
         let contents: String? = rootView.contentsTextView.text
-        let date = deadlineDate
-        let tag = "테스트"
-        let priority = Int.random(in: 0...5)
         let imageId: Int? = nil
         
         print(#function, "하이")
         do {
             try realm.write {
-                let todo = TodoModel(title: text, contents: contents, deadline: deadlineDate, tag: tag, priority: priority, imageId: imageId)
+                let todo = TodoModel(title: text, contents: contents, deadline: deadline, tag: tag, priority: priority, imageId: imageId)
                 realm.add(todo)
             }
             cancleAddTodo()
@@ -75,16 +70,41 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
     }
 }
 
-extension AddTodoViewController: AddTodoViewDelegate {
-    func presentCalendarView() {
-        let vc = AddTodoCalendarViewController()
-        vc.delegate = self
-        presentView(view: vc, presentationStyle: .formSheet, animated: true)
+extension AddTodoViewController: ViewTransitionDelegate {
+  
+    func presentViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle, animated: Bool) where T : UIViewController {
+    
+        // 어떻게 추상화하면 좋을까.
+        var nextVC: UIViewController?
+        switch T.self {
+            case is AddTodoCalendarViewController.Type:
+                let vc = T() as! AddTodoCalendarViewController
+                vc.delegate = self
+                nextVC = vc
+            case is AddTodoTagViewController.Type:
+                let vc = T() as! AddTodoTagViewController
+                vc.delegate = self
+                nextVC = vc
+            case is AddTodoPriorityViewController.Type:
+                let vc = T() as! AddTodoPriorityViewController
+                vc.delegate = self
+                nextVC = vc
+            default: return
+        }
+        guard let nextVC else {
+            return
+        }
+        presentView(view: nextVC, presentationStyle: presentationStyle, animated: animated)
     }
 }
 
 extension AddTodoViewController: DataReceiveDelegate {
     func receiveData<T>(data: T) {
-        deadlineDate = data as! Date
+        switch T.self{
+        case is Date.Type: deadline = data as? Date
+        case is String.Type: tag = data as? String
+        case is Int.Type: priority = data as? Int
+        default: return
+        }
     }
 }
