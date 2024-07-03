@@ -12,18 +12,22 @@ extension AddTodoViewController: UITextViewDelegate {
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         if textView == rootView.contentsTextView {
             textView.text = nil
+            textView.textColor = .systemGray5
         }
         return true
     }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        guard let text = textView.text else {
+        guard textView == rootView.contentsTextView, let text = textView.text else {
             print(#function, "입력텍스트 없음")
             return true
         }
-        if textView == rootView.contentsTextView && !TextInputFilter().filterSerialSpace(text) {
+        guard let filterd = TextInputFilter().removeSpace(text) else {
             textView.text = "내용"
+            textView.textColor = .lightGray
+            return true
         }
+        todo.contents = filterd
         return true
     }
     

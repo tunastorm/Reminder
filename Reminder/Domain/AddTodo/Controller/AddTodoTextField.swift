@@ -28,10 +28,11 @@ extension AddTodoViewController: UITextFieldDelegate {
             print(#function, "입력텍스트 없음")
             return true
         }
-        let title = TextInputFilter().removeSpace(text)
-        if textField == rootView.titleTextField && !TextInputFilter().filterSerialSpace(text) {
+        guard textField == rootView.titleTextField, let filtered = TextInputFilter().removeSpace(text) else {
             textField.placeholder = "제목"
+            return true
         }
+        todo.title = filtered
         return true
     }
 }

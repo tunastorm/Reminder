@@ -22,7 +22,7 @@ class AddTodoView: BaseView {
     let titleTextField = UITextField().then {
         $0.placeholder = "제목"
         $0.font = .systemFont(ofSize: 14)
-        $0.textColor = .lightGray
+        $0.textColor = .systemGray5
         $0.setPlaceholder(color: .lightGray)
         $0.backgroundColor = .clear
     }

@@ -22,8 +22,21 @@ class TextInputFilter {
     
     func removeSpace(_ inputText: String) -> String? {
         let trimed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+        print(#function, trimed)
         let replaced = trimed.replacingOccurrences(of: serialSpaceFilter, with: "")
+        print(#function, replaced)
         return replaced == " " ? nil : replaced
+    }
+    
+    func tagFilter(_ inputText: String) -> String? {
+        guard let removedSpace = removeSpace(inputText) else {
+            return nil
+        }
+        let removedShop = removedSpace.replacingOccurrences(of: "#", with: "")
+        guard !removedShop.isEmpty else {
+            return nil
+        }
+        return removedShop
     }
     
     func filterSerialSpace(_ inputText: String) -> Bool {

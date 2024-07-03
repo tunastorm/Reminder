@@ -9,15 +9,22 @@ import UIKit
 
 
 class AddTodoViewController: BaseViewController<AddTodoView> {
-
-    var deadline: Date?
-    var tag: String?
-    var priority: TodoModel.Column.PriortyLevel?
     
+    var isEditView = true
+    
+    var todo = TodoModel() {
+        didSet {
+            configItem()
+        }
+    }
+//    var deadline: Date?
+//    var tag: String?
+//    var priority: TodoModel.Column.PriortyLevel?
+//    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationbar(bgColor: .darkGray)
-        print(self.self, #function, "\(deadline), \(tag), \(priority)")
+        editingToggle()
     }
     
     override func configNavigationbar(bgColor: UIColor) {
@@ -36,30 +43,67 @@ class AddTodoViewController: BaseViewController<AddTodoView> {
         rootView.contentsTextView.delegate = self
     }
     
+    
+    func editingToggle() {
+        navigationItem.rightBarButtonItem?.isHidden = !isEditView
+        navigationItem.leftBarButtonItem?.isHidden = !isEditView
+        rootView.titleTextField.isUserInteractionEnabled = isEditView
+        rootView.contentsTextView.isUserInteractionEnabled = isEditView
+        rootView.deadlineView.setButton.isHidden = !isEditView
+        rootView.tagView.setButton.isHidden = !isEditView
+        rootView.priorityView.setButton.isHidden = !isEditView
+        rootView.addImageView.setButton.isHidden = !isEditView
+        if !isEditView {
+            configItem()
+        }
+    }
+    
+    func configItem() {
+        if !todo.title.isEmpty {
+            rootView.titleTextField.text = todo.title
+        }
+        if let contents = todo.contents {
+            rootView.contentsTextView.text = contents
+        }
+        if let deadline = todo.deadline {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy. M. d."
+            rootView.deadlineView.selectedTextField.placeholder = dateFormatter.string(from: deadline)
+        }
+        if !todo.tag.isEmpty {
+            rootView.tagView.selectedTextField.placeholder = "#\(todo.tag)"
+        }
+        if todo.priority >= 1 && todo.priority <= 5 {
+            print(#function, todo.priority)
+            let krPriority = TodoModel.Column.priority.allLevels[todo.priority-1].krLevel
+            rootView.priorityView.selectedTextField.placeholder = krPriority
+        }
+    }
+    
     @objc func cancleAddTodo() {
         dismiss(animated: true)
     }
     
     @objc func excuteAddTodo() {
-        guard let text = rootView.titleTextField.text, TextInputFilter().filterSerialSpace(text) else {
+        let textFilter = TextInputFilter()
+        guard let text = rootView.titleTextField.text, textFilter.filterSerialSpace(text) else {
             rootView.callCreateError(column: TodoModel.Column.title)
             return
         }
-        guard let tag else {
+        guard let tag = textFilter.removeSpace(todo.tag) else {
             rootView.callCreateError(column: TodoModel.Column.tag)
             return
         }
-        guard let priority else {
+        guard todo.priority >= 1 && todo.priority <= 5 else {
             rootView.callCreateError(column: TodoModel.Column.priority)
             return
         }
-        let contents: String? = rootView.contentsTextView.text
-        let imageId: Int? = nil
-        
-        print(#function, "하이")
+        todo.title = text
+        todo.contents = textFilter.removeSpace(rootView.contentsTextView.text ?? "")
+        print(#function, todo)
         do {
             try realm.write {
-                let todo = TodoModel(title: text, contents: contents, deadline: deadline, tag: tag, priority: priority.rawValue, imageId: imageId)
+                let todo = TodoModel(value: todo)
                 realm.add(todo)
             }
             cancleAddTodo()
@@ -101,10 +145,13 @@ extension AddTodoViewController: ViewTransitionDelegate {
 extension AddTodoViewController: DataReceiveDelegate {
     func receiveData<T>(data: T) {
         switch T.self{
-        case is Date.Type: deadline = data as? Date
-        case is String.Type: tag = data as? String
-        case is TodoModel.Column.PriortyLevel.Type: priority = data as? TodoModel.Column.PriortyLevel
+        case is Date.Type: todo.deadline = data as! Date
+        case is String.Type: todo.tag = data as! String
+        case is TodoModel.Column.PriortyLevel.Type:
+            let priority = data as! TodoModel.Column.PriortyLevel
+            todo.priority = priority.rawValue
         default: return
         }
+        configItem()
     }
 }

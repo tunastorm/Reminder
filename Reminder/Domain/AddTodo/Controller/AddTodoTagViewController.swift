@@ -44,9 +44,10 @@ extension AddTodoTagViewController: UITextFieldDelegate {
             print(#function, "입력텍스트 없음")
             return true
         }
-        let title = TextInputFilter().removeSpace(text)
-        if textField == rootView.tagTextField && !TextInputFilter().filterSerialSpace(text) {
+        
+        guard textField == rootView.tagTextField, let filterd = TextInputFilter().tagFilter(textField.text ?? "") else {
             textField.placeholder = "사용할 태그를 입력하세요"
+            return true
         }
         return true
     }
@@ -54,7 +55,7 @@ extension AddTodoTagViewController: UITextFieldDelegate {
 
 extension AddTodoTagViewController: AddTodoTagViewDelegate {
     func sendTagData() {
-        guard let text = rootView.tagTextField.text, let filterd = TextInputFilter().removeSpace(text) else {
+        guard let text = rootView.tagTextField.text, let filterd = TextInputFilter().tagFilter(text) else {
             print(#function, "공백텍스트")
             return
         }

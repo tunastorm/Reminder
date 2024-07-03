@@ -39,7 +39,7 @@ class TodoModel: Object {
         
         
         enum PriortyLevel: Int, CaseIterable {
-            case unimportant = 0
+            case unimportant = 1
             case changeable
             case planned
             case immediately
@@ -64,8 +64,6 @@ class TodoModel: Object {
         var allLevels: [PriortyLevel] {
             return PriortyLevel.allCases
         }
-        
-      
         
         var CreateError: String {
             return "\(self)값이 없거나 유효하지 않습니다."
