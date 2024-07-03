@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 protocol MainViewDelegate {
@@ -20,6 +21,20 @@ class MainViewController: BaseViewController<MainView>{
         super.viewDidLoad()
         rootView.delegate = self
         print(#function, realm.configuration.fileURL)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        do {
+            guard let fileURL = realm.configuration.fileURL else {
+                print(#function, "realm fileURL 찾을 수 없음")
+                return
+            }
+            let version = try schemaVersionAtURL(fileURL)
+            print(#function, "realmVersion: ", version)
+        } catch {
+            
+        }
     }
         
 }

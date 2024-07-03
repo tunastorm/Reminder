@@ -7,6 +7,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import RealmSwift
 
 
 @main
@@ -18,6 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.resignOnTouchOutside = true
         
+        let config = Realm.Configuration(schemaVersion: 0) { migration, oldSchemaVersion in
+            if oldSchemaVersion < 1 {
+                
+            }
+        }
+        Realm.Configuration.defaultConfiguration = config
+    
         return true
     }
 

@@ -41,6 +41,8 @@
 		BC1ED3982C343AB900BFD44A /* TodoListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3972C343AB900BFD44A /* TodoListHeaderView.swift */; };
 		BC1ED39A2C34518600BFD44A /* AddTodoCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3992C34518600BFD44A /* AddTodoCalendarView.swift */; };
 		BC1ED39E2C34574900BFD44A /* DataReceiveDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED39D2C34574900BFD44A /* DataReceiveDelegate.swift */; };
+		BC1ED3A32C35342000BFD44A /* AddTodoTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3A22C35342000BFD44A /* AddTodoTagViewController.swift */; };
+		BC1ED3A52C35344000BFD44A /* AddTodoTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ED3A42C35344000BFD44A /* AddTodoTagView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +77,8 @@
 		BC1ED3972C343AB900BFD44A /* TodoListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListHeaderView.swift; sourceTree = "<group>"; };
 		BC1ED3992C34518600BFD44A /* AddTodoCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoCalendarView.swift; sourceTree = "<group>"; };
 		BC1ED39D2C34574900BFD44A /* DataReceiveDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReceiveDelegate.swift; sourceTree = "<group>"; };
+		BC1ED3A22C35342000BFD44A /* AddTodoTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoTagViewController.swift; sourceTree = "<group>"; };
+		BC1ED3A42C35344000BFD44A /* AddTodoTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoTagView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +264,7 @@
 				BC1ED3862C33F79000BFD44A /* AddTodoView.swift */,
 				BC1ED3882C33FA7800BFD44A /* AddTodoItem.swift */,
 				BC1ED3992C34518600BFD44A /* AddTodoCalendarView.swift */,
+				BC1ED3A42C35344000BFD44A /* AddTodoTagView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -271,6 +276,7 @@
 				BC1ED38D2C34159600BFD44A /* AddTodoTextField.swift */,
 				BC1ED38F2C3415EA00BFD44A /* AddTodoTextView.swift */,
 				BC1ED3912C34162C00BFD44A /* AddTodoCalendarViewController.swift */,
+				BC1ED3A22C35342000BFD44A /* AddTodoTagViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -393,6 +399,7 @@
 				BC1ED39E2C34574900BFD44A /* DataReceiveDelegate.swift in Sources */,
 				BC1ED3762C33EE6600BFD44A /* ViewTransition.swift in Sources */,
 				BC1ED3852C33F78400BFD44A /* AddTodoViewController.swift in Sources */,
+				BC1ED3A32C35342000BFD44A /* AddTodoTagViewController.swift in Sources */,
 				BC1ED39A2C34518600BFD44A /* AddTodoCalendarView.swift in Sources */,
 				BC1ED3332C33E37E00BFD44A /* AppDelegate.swift in Sources */,
 				BC1ED3742C33EE5700BFD44A /* ReusableIdentifier.swift in Sources */,
@@ -405,6 +412,7 @@
 				BC1ED3922C34162C00BFD44A /* AddTodoCalendarViewController.swift in Sources */,
 				BC1ED3352C33E37E00BFD44A /* SceneDelegate.swift in Sources */,
 				BC1ED3952C341B4900BFD44A /* TextInputFilter.swift in Sources */,
+				BC1ED3A52C35344000BFD44A /* AddTodoTagView.swift in Sources */,
 				BC1ED3652C33E8F200BFD44A /* BaseViewController.swift in Sources */,
 				BC1ED3602C33E84700BFD44A /* TodoListViewController.swift in Sources */,
 				BC1ED3702C33EDEF00BFD44A /* TodoListTableViewCell.swift in Sources */,

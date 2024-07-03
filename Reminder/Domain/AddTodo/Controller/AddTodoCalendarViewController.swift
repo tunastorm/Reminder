@@ -38,7 +38,6 @@ class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarView> {
 
 extension AddTodoCalendarViewController: UICalendarViewDelegate, UICalendarSelectionSingleDateDelegate  {
     
-    
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let dateComponents, let delegate else {
             return

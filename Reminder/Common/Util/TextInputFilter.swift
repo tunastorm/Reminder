@@ -20,16 +20,15 @@ class TextInputFilter {
     private var specialFilter = "@#$%"
     private var serialSpaceFilter = "/ +(?= )/"
     
-    func removeSpace(_ inputText: String) -> String {
-        let trim = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trim.replacingOccurrences(of: serialSpaceFilter, with: "")
+    func removeSpace(_ inputText: String) -> String? {
+        let trimed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let replaced = trimed.replacingOccurrences(of: serialSpaceFilter, with: "")
+        return replaced == " " ? nil : replaced
     }
     
     func filterSerialSpace(_ inputText: String) -> Bool {
-        let text = removeSpace(inputText)
-        
-        guard text != " ", !text.isEmpty  else {
-            print(#function, "공백텍스트", text)
+        guard let text = removeSpace(inputText), !text.isEmpty else {
+            print(#function, "공백텍스트")
             return false
         }
         print(#function, "공백검사 통과", text)

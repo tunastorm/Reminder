@@ -35,8 +35,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         guard let list else {
             return nil
         }
-        print(#function, "swipe!!!!")
-        let delete = UIContextualAction(style: .normal, title: "삭제") { action, view, complitionHandler in
+        let delete = UIContextualAction(style: .destructive, title: "삭제") { action, view, complitionHandler in
             
             try! self.realm.write {
                 self.realm.delete(list[indexPath.row])

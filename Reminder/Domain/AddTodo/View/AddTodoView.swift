@@ -107,6 +107,7 @@ class AddTodoView: BaseView {
     override func configView() {
         self.backgroundColor = .darkGray
         deadlineView.setButton.addTarget(self, action: #selector(showCalendar), for: .touchUpInside)
+        
     }
     
     func inputErrorEvent() {
