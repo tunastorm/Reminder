@@ -30,5 +30,4 @@ extension AddTodoViewController: UITextViewDelegate {
         todo.contents = filterd
         return true
     }
-    
 }

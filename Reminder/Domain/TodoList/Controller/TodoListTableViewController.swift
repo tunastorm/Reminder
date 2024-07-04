@@ -11,38 +11,31 @@ import UIKit
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerName else {
+        guard let filter else {
             return UIView()
         }
         let headerView = HeaderView()
-        headerView.configHeaderLabel(title: headerName)
+        headerView.configHeaderLabel(title: filter.krName)
         return headerView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return list?.count ?? 0
+        return list.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoListTableViewCell.identifier, for: indexPath) as? TodoListTableViewCell else {
             return UITableViewCell()
         }
-        guard let data = list?[indexPath.row] else {
-            return cell
-        }
-        
-        cell.configCell(data: data)
+        cell.configCell(data: list[indexPath.row])
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let data = list?[indexPath.row] else {
-            return
-        }
         let vc = AddTodoViewController()
         vc.isEditView = false
-        vc.todo = data
+        vc.todo = list[indexPath.row]
         pushAfterView(view: vc, backButton: true, animated: true)
     }
     
@@ -50,9 +43,9 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         let delete = UIContextualAction(style: .destructive, title: "삭제") { action, view, complitionHandler in
         
             try! self.realm.write {
-                self.realm.delete(self.list![indexPath.row])
+                self.realm.delete(self.list[indexPath.row])
             }
-            self.delegate?.updateTodoList()
+            self.delegate?.configCountList()
             self.fatchRealm()
         }
         return UISwipeActionsConfiguration(actions: [delete])

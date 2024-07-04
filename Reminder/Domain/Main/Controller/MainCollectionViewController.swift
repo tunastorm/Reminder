@@ -12,25 +12,23 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return listVector.count ?? 0
+        return TodoFilter.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else {
             return UICollectionViewCell()
         }
-        guard let listinfo = listinfo?[indexPath.row] else {
-            return cell
-        }
-        cell.configCell(data: listinfo, count: listVector[indexPath.row].count)
+        cell.configCell(data: TodoFilter.allCases[indexPath.row] , count: countList[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let filter = TodoFilter.allCases[indexPath.row]
+        print(#function, filter)
         let vc = TodoListViewController()
         vc.delegate = self
-        vc.headerName = listinfo?[indexPath.row].listName
-        vc.list = listVector[indexPath.row]
+        vc.filter = filter
         pushAfterView(view: vc, backButton: true, animated: true)
     }
 }

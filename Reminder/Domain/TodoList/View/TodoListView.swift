@@ -33,7 +33,7 @@ final class TodoListView: BaseView {
     }
     
     func configTableView() {
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = .black
         tableView.separatorColor = .systemGray6
         tableView.separatorStyle = .singleLine
     }

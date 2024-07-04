@@ -15,7 +15,6 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
     
     let iconView = UIView().then {
         $0.layer.masksToBounds = true
-        $0.layer.cornerRadius = 20
     }
     
     let iconImageView = UIImageView().then {
@@ -53,7 +52,7 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
         }
         nameLabel.snp.makeConstraints {
             $0.height.equalTo(20)
-            $0.top.equalTo(iconView.snp.bottom).offset(15)
+            $0.top.greaterThanOrEqualTo(iconView.snp.bottom).offset(10)
             $0.horizontalEdges.bottom.equalToSuperview().inset(10)
         }
         countLabel.snp.makeConstraints {
@@ -63,16 +62,23 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
+    override func draw(_ rect: CGRect) {
+        iconView.layer.cornerRadius = iconView.frame.height * 0.5
+    }
+    
     override func configView() {
         contentView.backgroundColor = .darkGray
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
     }
     
-    func configCell(data: TodoListModel, count: Int) {
-        iconView.backgroundColor = data.allColors[data.bgColor].color
-        iconImageView.image = UIImage(systemName: data.iconPath)?.withTintColor(.white, renderingMode: .alwaysTemplate)
-        nameLabel.text = data.listName
+    func configCell(data: TodoFilter, count: Int) {
+        iconView.backgroundColor = data.color
+        iconImageView.image = data.image
+        nameLabel.text = data.krName
+        guard data != .completed else {
+            return
+        }
         countLabel.text = String(count)
     }
 }

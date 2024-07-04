@@ -65,10 +65,6 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
             return
         }
         print(#function, tag)
-        guard todo.priority >= 1 && todo.priority <= 5 else {
-            rootView.callCreateError(column: TodoModel.Column.priority)
-            return
-        }
         todo.title = text
         todo.contents = textFilter.removeSpace(rootView.contentsTextView.text ?? "")
         print(#function, todo)
@@ -77,7 +73,7 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
                 let todo = TodoModel(value: todo)
                 realm.add(todo)
             }
-            delegate?.updateTodoList()
+            delegate?.configCountList()
             cancleAddTodo()
         } catch {
             print(error)

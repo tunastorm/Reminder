@@ -12,10 +12,13 @@ import RealmSwift
 final class TodoListViewController: BaseViewController<TodoListView> {
 
     var delegate: UpdateListDelegate?
+
+    var repository = TodoRepository()
+    var object = TodoModel.self
     
-    var headerName: String?
+    var filter: TodoFilter?
     
-    var list: Results<TodoModel>? {
+    var list: [TodoModel] = [] {
         didSet {
             rootView.tableView.reloadData()
         }
@@ -26,7 +29,11 @@ final class TodoListViewController: BaseViewController<TodoListView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         configInteraction()
-        print(#function, realm.configuration.fileURL)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configList(sort: TodoModel.Column.deadline)
     }
     
     override func configNavigationbar(bgColor: UIColor) {
@@ -41,18 +48,31 @@ final class TodoListViewController: BaseViewController<TodoListView> {
                                     forCellReuseIdentifier: TodoListTableViewCell.identifier)
     }
     
+    func configList(sort: TodoModel.Column, acending: Bool = true) {
+        list = repository.fetchAllFiltered(obejct: object, sortKey: sort.rawValue, acending: acending) {
+            switch filter {
+            case .today: $0.deadline != nil && $0.deadline == today
+            case .planned: $0.deadline != nil && $0.deadline > today
+            case .flagged: $0.isFlag
+            case .completed: $0.deadline < today
+            case .lowPriority: $0.priority == TodoModel.Column.PriortyLevel.low.rawValue
+            default: $0.priority > 0 // all case
+            }
+        }
+        print(#function, filter, list)
+    }
+    
     func configFilterBarButton() {
         let deadlineFilter = UIAction(title: "마감일순 정렬", image: UIImage(systemName: "calendar")) { _ in
-            self.list = self.realm.objects(TodoModel.self).sorted(byKeyPath: "deadline", ascending: true)
+            self.configList(sort: TodoModel.Column.deadline)
         }
         
         let titleFilter = UIAction(title: "제목순 정렬", image: UIImage(systemName: "textformat")) { _ in
-            self.list = self.realm.objects(TodoModel.self).sorted(byKeyPath: TodoModel.Column.title.rawValue, ascending: true)
+            self.configList(sort: TodoModel.Column.title)
         }
         
         let priorityFilter = UIAction(title: "우선순위 낮음만", image: UIImage(systemName: "checkmark.square")) { _ in
-            self.list = self.realm.objects(TodoModel.self).where { $0.priority > 0 && $0.priority <= 3 }
-                      .sorted(byKeyPath: TodoModel.Column.priority.rawValue, ascending: true)
+            self.configList(sort: TodoModel.Column.priority)
         }
         
         menuItems = [deadlineFilter,titleFilter, priorityFilter]

@@ -21,10 +21,10 @@ final class TodoListTableViewCell: BaseTableViewCell {
     
     let todoView = UIView()
     
-    let highlightImage = UIImageView().then {
-        $0.image = UIImage(systemName: "checkmarker")
+    let priorityLabel = UILabel().then {
         $0.isHidden = true
     }
+    
     let titleLabel = UILabel().then {
         $0.textColor = .white
         $0.font = .boldSystemFont(ofSize: 20)
@@ -52,7 +52,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
     override func configHierarchy() {
         contentView.addSubview(radioButton)
         contentView.addSubview(todoView)
-        todoView.addSubview(highlightImage)
+        todoView.addSubview(priorityLabel)
         todoView.addSubview(titleLabel)
         todoView.addSubview(contentsLabel)
         todoView.addSubview(deadlineLabel)
@@ -70,7 +70,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
             $0.leading.equalTo(radioButton.snp.trailing).offset(10)
             $0.verticalEdges.trailing.equalToSuperview().inset(10)
         }
-        highlightImage.snp.makeConstraints {
+        priorityLabel.snp.makeConstraints {
             $0.height.equalTo(24)
             $0.width.equalTo(0)
             $0.leading.equalToSuperview()
@@ -80,7 +80,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
             $0.height.equalTo(24)
             $0.top.equalToSuperview()
             $0.trailing.equalToSuperview().inset(20)
-            $0.leading.equalTo(highlightImage.snp.trailing).offset(10)
+            $0.leading.equalTo(priorityLabel.snp.trailing).offset(10)
         }
         contentsLabel.snp.makeConstraints {
             $0.height.equalTo(0)
@@ -110,6 +110,15 @@ final class TodoListTableViewCell: BaseTableViewCell {
     
     func configCell(data: TodoModel) {
         print(#function, data)
+        
+        if let priority = data.priority {
+            var a = ""
+            for i in 1...priority {
+                a += "!"
+            }
+            priorityLabel.text = a
+        }
+       
         // highlightImage 토글 로직 구현 필요
         if let contents = data.contents {
             contentsLabel.isHidden = false

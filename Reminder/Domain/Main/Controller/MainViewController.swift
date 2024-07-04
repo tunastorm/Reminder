@@ -15,17 +15,17 @@ protocol MainViewDelegate {
 }
 
 protocol UpdateListDelegate {
-    func updateTodoList()
+    func configCountList()
 }
 
 
 final class MainViewController: BaseViewController<MainView>, UpdateListDelegate {
+    
  
-    var listinfo: Results<TodoListModel>?
+    private let repository = TodoRepository()
+    private let object = TodoModel.self
     
-    var listVector: [Results<TodoModel>] = []
-    
-    var today: Date?
+    var countList: [Int] = []
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -50,8 +50,7 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
     
     override func configDataBase() {
         configToday()
-        configListInfo()
-        configTodoList()
+        configCountList()
     }
     
     override func configInteraction() {
@@ -62,51 +61,34 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
                                          forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
     }
     
-    func configToday() {
-        let dateComponent = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-        today = Calendar.current.date(from: dateComponent)
-    }
-    
-    func updateTodoList() {
-        listVector[2] = realm.objects(TodoModel.self)
-        rootView.collectionView.reloadItems(at: [IndexPath(row: 2, section: 0)])
-        guard let today else {
-            return
+    func getFilteredCount(_ filter: TodoFilter, sort: TodoModel.Column) -> Int {
+        let result = repository.fetchAllFiltered(obejct: object, sortKey: sort.rawValue) { todo in
+            switch filter {
+            case .today: todo.deadline != nil && todo.deadline == today
+            case .planned: todo.deadline != nil && todo.deadline > today
+            case .flagged: todo.isFlag
+            case .completed: todo.deadline < today
+            case .lowPriority: todo.priority == TodoModel.Column.PriortyLevel.low.rawValue
+            default: todo.priority > 0 // all case
+            }
         }
-        let todayList = realm.objects(TodoModel.self).where { $0.deadline == today}
-        let plannedList = realm.objects(TodoModel.self).where { $0.deadline > today}
-        let likedList = realm.objects(TodoModel.self).where { $0.isLike == true }
-        
-        listVector[0] = todayList
-        rootView.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
-        
-        listVector[1] = plannedList
-        rootView.collectionView.reloadItems(at: [IndexPath(row: 1, section: 0)])
-    
-        listVector[3] = likedList
-        rootView.collectionView.reloadItems(at: [IndexPath(row: 3, section: 0)])
+        print(#function, result)
+        return result == [] ? 0 : result.count
     }
     
-    
-    func configTodoList() {
-        let dateComponent = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-        let today = Calendar.current.date(from: dateComponent)
-        
-        listVector.append(realm.objects(TodoModel.self).where { $0.deadline == today})
-        rootView.collectionView.reloadItems(at: [IndexPath(row: 0, section: 0)])
-        listVector.append(realm.objects(TodoModel.self).where { $0.deadline > today})
-        rootView.collectionView.reloadItems(at: [IndexPath(row: 1, section: 0)])
-        listVector.append(realm.objects(TodoModel.self))
-        rootView.collectionView.reloadItems(at: [IndexPath(row: 2, section: 0)])
-        listVector.append(realm.objects(TodoModel.self).where { $0.isLike == true })
-        rootView.collectionView.reloadItems(at: [IndexPath(row: 3, section: 0)])
-        
-        print(#function, listVector)
+    func configCountList() {
+        TodoFilter.allCases.forEach { filter in
+            let count = getFilteredCount(filter, sort: TodoModel.Column.deadline)
+            if countList.count == TodoFilter.allCases.count {
+                countList[filter.rawValue] = count
+            } else {
+                countList.append(count)
+            }
+            rootView.collectionView.reloadItems(at: [IndexPath(row: filter.rawValue, section: 0)])
+        }
+        print(#function, countList)
     }
     
-    func configListInfo() {
-        listinfo = realm.objects(TodoListModel.self)
-    }
     @objc func settingButtonClicked() {
         print(#function)
     }

@@ -13,6 +13,11 @@ class BaseViewController<T:BaseView>: UIViewController {
         
     var rootView = T()
     let realm = try! Realm()
+    var today: Date?
+    
+    deinit {
+        print("deinit: ", self.self)
+    }
     
     override func loadView() {
         view = rootView
@@ -27,6 +32,8 @@ class BaseViewController<T:BaseView>: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationbar(bgColor: .black)
+        configToday()
+        
     }
     
     func configNavigationbar(bgColor: UIColor) {
@@ -45,10 +52,14 @@ class BaseViewController<T:BaseView>: UIViewController {
         
     }
     
+    func configToday() {
+        let dateComponent = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        today = Calendar.current.date(from: dateComponent)
+    }
+    
     func configDataBase() {
         
     }
-    
     
     func showAlert(title: String,message: String, ok: String?, handler: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

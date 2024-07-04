@@ -116,20 +116,23 @@ final class AddTodoView: BaseView {
     }
     
     func configItem(todo: TodoModel, isEditView: Bool) {
+        let minPriority = TodoModel.Column.PriortyLevel.low.rawValue
+        let maxPriority = TodoModel.Column.PriortyLevel.high.rawValue
+        
         if contentsTextView.text == "메모", !isEditView, let contents = todo.contents {
            contentsTextView.text = contents
         }
-        if deadlineView.selectedTextField.placeholder == nil, let deadline = todo.deadline {
+        if let deadline = todo.deadline {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy. M. d."
             deadlineView.selectedTextField.placeholder = dateFormatter.string(from: deadline)
         }
-        if tagView.selectedTextField.placeholder == nil, !todo.tag.isEmpty {
+        if !todo.tag.isEmpty {
             tagView.selectedTextField.placeholder = "#\(todo.tag)"
         }
-        if priorityView.selectedTextField.placeholder == nil, (todo.priority >= 1 && todo.priority <= 5) {
+        if  let priority = todo.priority, minPriority <= priority && priority <= maxPriority {
             print(#function, todo.priority)
-            let krPriority = TodoModel.Column.priority.allLevels[todo.priority-1].krLevel
+            let krPriority = TodoModel.Column.priority.allLevels[priority-1].krLevel
             priorityView.selectedTextField.placeholder = krPriority
         }
     }

@@ -11,16 +11,15 @@ import RealmSwift
 
 final class TodoModel: Object {
     @Persisted(primaryKey: true) var id: ObjectId
-    let ofTodoList = LinkingObjects(fromType: TodoListModel.self, property: "id")
     @Persisted var title: String
     @Persisted var contents: String?
     @Persisted var deadline: Date?
     @Persisted var tag: String
-    @Persisted var priority: Int
+    @Persisted var priority: Int?
     @Persisted var imageId: Int?
-    @Persisted var isLike: Bool
+    @Persisted var isFlag: Bool
     
-    convenience init(title: String, contents: String? = nil, deadline: Date? = nil, tag: String, priority: Int, imageId: Int? = nil, isLike: Bool = false) {
+    convenience init(title: String, contents: String? = nil, deadline: Date? = nil, tag: String, priority: Int? = nil, imageId: Int? = nil, isFlag: Bool = false) {
         self.init()
         self.title = title
         self.contents = contents
@@ -28,7 +27,7 @@ final class TodoModel: Object {
         self.tag = tag
         self.priority = priority
         self.imageId = imageId
-        self.isLike = isLike
+        self.isFlag = isFlag
     }
     
     enum Column: String, CaseIterable {
@@ -39,27 +38,22 @@ final class TodoModel: Object {
         case tag
         case priority
         case imageId
-        
+        case isFlag
+        case isComplete
         
         enum PriortyLevel: Int, CaseIterable {
-            case unimportant = 1
-            case changeable
-            case planned
-            case immediately
-            case critical
+            case low = 1
+            case middle
+            case high
             
             var krLevel: String {
                 switch self {
-                case .unimportant:
-                    return "중요하지 않음"
-                case .changeable:
-                    return "유동적"
-                case .planned:
-                    return "계획됨"
-                case .immediately:
-                    return "즉시"
-                case .critical:
-                    return "필수"
+                case .low:
+                    return "낮음"
+                case .middle:
+                    return "중간"
+                case .high:
+                    return "높음"
                 }
             }
         }
