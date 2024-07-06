@@ -10,7 +10,7 @@ import RealmSwift
 
 
 class BaseViewController<T:BaseView>: UIViewController {
-        
+    
     var rootView = T()
     let realm = try! Realm()
     var today: Date?

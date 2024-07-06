@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TextInputFilter {
+final class TextInputFilter {
     
 //    private init() {}
 //    

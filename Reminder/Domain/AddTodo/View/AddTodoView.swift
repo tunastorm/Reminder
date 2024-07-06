@@ -123,9 +123,8 @@ final class AddTodoView: BaseView {
            contentsTextView.text = contents
         }
         if let deadline = todo.deadline {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy. M. d."
-            deadlineView.selectedTextField.placeholder = dateFormatter.string(from: deadline)
+            Utils.dateFormatter.dateFormat = "yyyy. M. d."
+            deadlineView.selectedTextField.placeholder = Utils.dateFormatter.string(from: deadline)
         }
         if !todo.tag.isEmpty {
             tagView.selectedTextField.placeholder = "#\(todo.tag)"

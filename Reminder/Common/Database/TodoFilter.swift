@@ -15,8 +15,10 @@ enum TodoFilter: Int, CaseIterable {
     case flagged
     case completed
     case lowPriority
+    case date
    
-    
+    static let displayCount = 5
+   
     var krName: String {
         switch self {
         case .today:
@@ -31,23 +33,27 @@ enum TodoFilter: Int, CaseIterable {
             return "완료됨"
         case .lowPriority:
             return "우선순위 낮음"
+        case .date:
+            return "날짜별"
         }
     }
     
     var image: UIImage {
         switch self {
         case .today:
-            return UIImage(systemName: "calendar.badge.clock")!
+            return Resource.SystemImage.calendarBadgeClock
         case .planned:
-            return UIImage(systemName: "calendar")!
+            return Resource.SystemImage.calendar
         case .all:
-            return UIImage(systemName: "tray")!
+            return Resource.SystemImage.tray
         case .flagged:
-            return UIImage(systemName: "flag.fill")!
+            return Resource.SystemImage.flagFill
         case .completed:
-            return UIImage(systemName: "checkmark")!
+            return Resource.SystemImage.checkmark 
         case .lowPriority:
-            return UIImage(systemName: "arrow.down.circle")!
+            return Resource.SystemImage.arrowDownCircle
+        case .date:
+            return Resource.SystemImage.calendarBadgeCheckmark
         }
     }
     
@@ -65,6 +71,37 @@ enum TodoFilter: Int, CaseIterable {
             return .systemGray4
         case .lowPriority:
             return .systemGreen
+        case .date:
+            return .systemBrown
+        }
+    }
+    
+    enum Week: String, CaseIterable {
+        case sun
+        case mon
+        case tues
+        case wends
+        case thirs
+        case fri
+        case satur
+        
+        var kr: String {
+            switch self {
+            case .sun:
+                return "일"
+            case .mon:
+                return "월"
+            case .tues:
+                return "화"
+            case .wends:
+                return "수"
+            case .thirs:
+                return "목"
+            case .fri:
+                return "금"
+            case .satur:
+                return "토"
+            }
         }
     }
 }

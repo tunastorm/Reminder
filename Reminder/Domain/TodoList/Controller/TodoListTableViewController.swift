@@ -15,7 +15,12 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UIView()
         }
         let headerView = HeaderView()
-        headerView.configHeaderLabel(title: filter.krName)
+        
+        var title = filter.krName
+        if filter == .date, let date {
+            title = Utils.dateFormatter.string(from: date)
+        }
+        headerView.configHeaderLabel(title: title)
         return headerView
     }
     

@@ -12,7 +12,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return TodoFilter.allCases.count-1
+        return TodoFilter.displayCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

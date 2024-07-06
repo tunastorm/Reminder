@@ -12,11 +12,13 @@ import RealmSwift
 final class TodoListViewController: BaseViewController<TodoListView> {
 
     var delegate: UpdateListDelegate?
-
-    var repository = TodoRepository()
-    var object = TodoModel.self
+   
+    private var repository = TodoRepository()
+    private var object = TodoModel.self
+ 
     
     var filter: TodoFilter?
+    var date: Date?
     
     var list: [TodoModel] = [] {
         didSet {
@@ -56,6 +58,7 @@ final class TodoListViewController: BaseViewController<TodoListView> {
             case .flagged: $0.isFlag
             case .completed: $0.deadline < today
             case .lowPriority: $0.priority == TodoModel.Column.PriortyLevel.low.rawValue
+            case .date: $0.deadline != nil && $0.deadline == self.date
             default: $0.priority > 0 // all case
             }
         }

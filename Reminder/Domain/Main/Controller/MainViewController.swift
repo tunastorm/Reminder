@@ -44,8 +44,10 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
     
     override func configNavigationbar(bgColor: UIColor) {
         super.configNavigationbar(bgColor: bgColor)
-        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(settingButtonClicked))
-        navigationItem.rightBarButtonItem = barButton
+        let leftBarButton = UIBarButtonItem(image: Resource.SystemImage.calendarBadgeCheckmark, style: .plain, target: self, action: #selector(calendarFilterClicked))
+        let rightBarButton = UIBarButtonItem(image: Resource.SystemImage.ellipsisCircle, style: .plain, target: self, action: #selector(settingButtonClicked))
+        navigationItem.leftBarButtonItem = leftBarButton
+        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     override func configDataBase() {
@@ -68,7 +70,6 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
             case .planned: todo.deadline != nil && todo.deadline > today
             case .flagged: todo.isFlag
             case .completed: todo.deadline < today
-            case .lowPriority: todo.priority == TodoModel.Column.PriortyLevel.low.rawValue
             default: todo.priority > 0 // all case
             }
         }
@@ -80,9 +81,10 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
         print(#function, TodoFilter.allCases)
         
         TodoFilter.allCases.forEach { filter in
-            if filter != .lowPriority  {
+            print(#function, filter.rawValue, TodoFilter.displayCount)
+            if filter.rawValue < TodoFilter.displayCount {
                 let count = getFilteredCount(filter, sort: TodoModel.Column.deadline)
-                if countList.count == TodoFilter.allCases.count-1 {
+                if countList.count == TodoFilter.displayCount {
                     countList[filter.rawValue] = count
                 } else {
                     countList.append(count)
@@ -90,7 +92,13 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
                 rootView.collectionView.reloadItems(at: [IndexPath(row: filter.rawValue, section: 0)])
             }
         }
-        print(#function, countList)
+//        print(#function, countList)
+    }
+    
+    @objc func calendarFilterClicked() {
+        let vc = MainCalendarFilterViewController()
+    
+        presentNavigationController(view: vc, presentationStyle: .fullScreen, animated: true)
     }
     
     @objc func settingButtonClicked() {
@@ -103,7 +111,7 @@ extension MainViewController: MainViewDelegate {
     func goAddTodoViewController() {
         let nextVC = AddTodoViewController()
         nextVC.delegate = self
-        self.presentNavgationController(view: nextVC, presentationStyle: nil, animated: true)
+        self.presentNavigationController(view: nextVC, presentationStyle: nil, animated: true)
     }
     
     func goTodoListViewController() {

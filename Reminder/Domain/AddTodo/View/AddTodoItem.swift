@@ -19,7 +19,7 @@ final class AddTodoItem: BaseView {
     
     let setButton = UIButton().then {
         $0.titleLabel?.font = .systemFont(ofSize: 0)
-        $0.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        $0.setImage(Resource.SystemImage.chevronRight, for: .normal)
         $0.tintColor = .systemGray5
     }
     

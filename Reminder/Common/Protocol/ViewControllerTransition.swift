@@ -14,7 +14,7 @@ protocol ViewControllerTransition {
     
     func presentViewController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     
-    func presentNavgationController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
+    func presentNavigationController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     
     func popBeforeViewController(animated: Bool)
    
@@ -40,7 +40,7 @@ extension UIViewController: ViewControllerTransition {
         self.present(view, animated: animated)
     }
     
-    func presentNavgationController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool) {
+    func presentNavigationController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool) {
         let nav = UINavigationController(rootViewController: view)
         if let presentationStyle {
             nav.modalPresentationStyle  = presentationStyle

@@ -55,18 +55,17 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
     }
     
     @objc func excuteAddTodo() {
-        let textFilter = TextInputFilter()
-        guard let text = rootView.titleTextField.text, textFilter.filterSerialSpace(text) else {
+        guard let text = rootView.titleTextField.text, Utils.textFilter.filterSerialSpace(text) else {
             rootView.callCreateError(column: TodoModel.Column.title)
             return
         }
-        guard let tag = textFilter.removeSpace(todo.tag) else {
+        guard let tag = Utils.textFilter.removeSpace(todo.tag) else {
             rootView.callCreateError(column: TodoModel.Column.tag)
             return
         }
         print(#function, tag)
         todo.title = text
-        todo.contents = textFilter.removeSpace(rootView.contentsTextView.text ?? "")
+        todo.contents = Utils.textFilter.removeSpace(rootView.contentsTextView.text ?? "")
         print(#function, todo)
         do {
             try realm.write {
