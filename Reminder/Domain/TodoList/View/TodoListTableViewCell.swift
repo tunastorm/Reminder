@@ -76,7 +76,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
         priorityLabel.snp.makeConstraints {
             $0.height.equalTo(24)
             $0.width.equalTo(0)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().inset(10)
             $0.top.equalToSuperview()
         }
         titleLabel.snp.makeConstraints {
@@ -120,6 +120,10 @@ final class TodoListTableViewCell: BaseTableViewCell {
                 a += "!"
             }
             priorityLabel.text = a
+            priorityLabel.isHidden = false
+            priorityLabel.snp.updateConstraints {
+                $0.width.equalTo(a.count * 8)
+            }
         }
        
         // highlightImage 토글 로직 구현 필요
