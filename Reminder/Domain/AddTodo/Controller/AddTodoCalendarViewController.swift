@@ -20,6 +20,11 @@ final class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarVie
         reloadCalendarView(date: Date())
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configNavigationbar(bgColor: .darkGray)
+    }
+    
     func configCalendar() {
         rootView.calendarView.delegate = self
         let dateSelection = UICalendarSelectionSingleDate(delegate: self)
@@ -49,6 +54,6 @@ extension AddTodoCalendarViewController: UICalendarViewDelegate, UICalendarSelec
         }
         reloadCalendarView(date: date)
         delegate.receiveData(data: date)
-        dismiss(animated: true)
+        popBeforeViewController(animated: true)
     }
 }

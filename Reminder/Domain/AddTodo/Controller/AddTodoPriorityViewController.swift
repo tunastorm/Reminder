@@ -20,6 +20,10 @@ final class AddTodoPriorityViewController: BaseViewController<AddTodoPriorityVie
         rootView.pickerView.dataSource = self
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configNavigationbar(bgColor: .darkGray)
+    }
 }
 
 extension AddTodoPriorityViewController: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -41,6 +45,6 @@ extension AddTodoPriorityViewController: UIPickerViewDelegate, UIPickerViewDataS
             return
         }
         delegate.receiveData(data: pickerList[row])
-        dismiss(animated: true)
+        popBeforeViewController(animated: true)
     }
 }

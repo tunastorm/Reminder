@@ -23,6 +23,9 @@ final class TodoListTableViewCell: BaseTableViewCell {
     
     let priorityLabel = UILabel().then {
         $0.isHidden = true
+        $0.font = .boldSystemFont(ofSize: 20)
+        $0.textAlignment = .left
+        $0.textColor = .systemBlue
     }
     
     let titleLabel = UILabel().then {

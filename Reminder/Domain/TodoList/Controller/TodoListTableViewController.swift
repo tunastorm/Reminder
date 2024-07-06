@@ -36,7 +36,7 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
         let vc = AddTodoViewController()
         vc.isEditView = false
         vc.todo = list[indexPath.row]
-        pushAfterView(view: vc, backButton: true, animated: true)
+        pushViewController(view: vc, backButton: true, animated: true)
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

@@ -87,7 +87,7 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
 
 extension AddTodoViewController: ViewTransitionDelegate {
   
-    func presentViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle? = nil, animated: Bool) where T : UIViewController {
+    func pushViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle? = nil, animated: Bool) where T : UIViewController {
         print( self.self, #function)
         // 어떻게 추상화하면 좋을까.
         var nextVC: UIViewController?
@@ -110,7 +110,7 @@ extension AddTodoViewController: ViewTransitionDelegate {
             print("nextVC 없음")
             return
         }
-        presentView(view: nextVC, presentationStyle: presentationStyle, animated: animated)
+        pushViewController(view: nextVC, backButton: true, animated: true)
     }
 }
 

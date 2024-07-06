@@ -22,6 +22,11 @@ final class AddTodoTagViewController: BaseViewController<AddTodoTagView> {
         rootView.delegate = self
         rootView.tagTextField.delegate = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configNavigationbar(bgColor: .darkGray)
+    }
 }
 
 extension AddTodoTagViewController: UITextFieldDelegate {
@@ -63,6 +68,6 @@ extension AddTodoTagViewController: AddTodoTagViewDelegate {
             return
         }
         delegate.receiveData(data: filterd)
-        dismiss(animated: true)
+        popBeforeViewController(animated: true)
     }
 }

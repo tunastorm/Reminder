@@ -12,7 +12,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return TodoFilter.allCases.count
+        return TodoFilter.allCases.count-1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -29,6 +29,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let vc = TodoListViewController()
         vc.delegate = self
         vc.filter = filter
-        pushAfterView(view: vc, backButton: true, animated: true)
+        pushViewController(view: vc, backButton: true, animated: true)
     }
 }

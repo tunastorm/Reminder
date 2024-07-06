@@ -160,9 +160,9 @@ final class AddTodoView: BaseView {
             return
         }
         switch sender.tag {
-        case 0: delegate.presentViewWithType(type: AddTodoCalendarViewController.self, presentationStyle: .none, animated: true)
-        case 1: delegate.presentViewWithType(type: AddTodoTagViewController.self, presentationStyle: .none, animated: true)
-        case 2: delegate.presentViewWithType(type: AddTodoPriorityViewController.self, presentationStyle: .none, animated: true)
+        case 0: delegate.pushViewWithType(type: AddTodoCalendarViewController.self, presentationStyle: .none, animated: true)
+        case 1: delegate.pushViewWithType(type: AddTodoTagViewController.self, presentationStyle: .none, animated: true)
+        case 2: delegate.pushViewWithType(type: AddTodoPriorityViewController.self, presentationStyle: .none, animated: true)
         case 3: makeToast("미구현 기능", duration: 3.0, position: .bottom)
         default: return
         }

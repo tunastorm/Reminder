@@ -10,11 +10,11 @@ import UIKit
 
 protocol ViewControllerTransition {
    
-    func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool)
+    func pushViewController(view: UIViewController, backButton: Bool, animated: Bool)
     
-    func presentView(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
+    func presentViewController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     
-    func navigationPresentView(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
+    func presentNavgationController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     
     func popBeforeViewController(animated: Bool)
    
@@ -26,21 +26,21 @@ protocol ViewControllerTransition {
 
 extension UIViewController: ViewControllerTransition {
 
-    func pushAfterView(view: UIViewController, backButton: Bool, animated: Bool) {
+    func pushViewController(view: UIViewController, backButton: Bool, animated: Bool) {
         if !backButton {
             view.navigationItem.hidesBackButton = true
         }
         self.navigationController?.pushViewController(view, animated: animated)
     }
     
-    func presentView(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool) {
+    func presentViewController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool) {
         if let presentationStyle {
             view.modalPresentationStyle = presentationStyle
         }
         self.present(view, animated: animated)
     }
     
-    func navigationPresentView(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool) {
+    func presentNavgationController(view: UIViewController, presentationStyle: UIModalPresentationStyle?, animated: Bool) {
         let nav = UINavigationController(rootViewController: view)
         if let presentationStyle {
             nav.modalPresentationStyle  = presentationStyle
@@ -63,6 +63,6 @@ extension UIViewController: ViewControllerTransition {
 
 protocol ViewTransitionDelegate {
     
-    func presentViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle?, animated: Bool)
+    func pushViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     
 }

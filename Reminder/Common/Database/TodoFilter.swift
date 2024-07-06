@@ -13,8 +13,9 @@ enum TodoFilter: Int, CaseIterable {
     case planned
     case all
     case flagged
-    case lowPriority
     case completed
+    case lowPriority
+   
     
     var krName: String {
         switch self {
@@ -26,10 +27,10 @@ enum TodoFilter: Int, CaseIterable {
             return "전체"
         case .flagged:
             return "깃발 표시"
-        case .lowPriority:
-            return "우선순위 낮음"
         case .completed:
             return "완료됨"
+        case .lowPriority:
+            return "우선순위 낮음"
         }
     }
     
@@ -43,10 +44,10 @@ enum TodoFilter: Int, CaseIterable {
             return UIImage(systemName: "tray")!
         case .flagged:
             return UIImage(systemName: "flag.fill")!
-        case .lowPriority:
-            return UIImage(systemName: "arrow.down.circle")!
         case .completed:
             return UIImage(systemName: "checkmark")!
+        case .lowPriority:
+            return UIImage(systemName: "arrow.down.circle")!
         }
     }
     
@@ -60,10 +61,10 @@ enum TodoFilter: Int, CaseIterable {
             return .systemGray
         case .flagged:
             return .systemYellow
-        case .lowPriority:
-            return .systemGreen
         case .completed:
             return .systemGray4
+        case .lowPriority:
+            return .systemGreen
         }
     }
 }

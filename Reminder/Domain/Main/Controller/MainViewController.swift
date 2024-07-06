@@ -77,14 +77,18 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
     }
     
     func configCountList() {
+        print(#function, TodoFilter.allCases)
+        
         TodoFilter.allCases.forEach { filter in
-            let count = getFilteredCount(filter, sort: TodoModel.Column.deadline)
-            if countList.count == TodoFilter.allCases.count {
-                countList[filter.rawValue] = count
-            } else {
-                countList.append(count)
+            if filter != .lowPriority  {
+                let count = getFilteredCount(filter, sort: TodoModel.Column.deadline)
+                if countList.count == TodoFilter.allCases.count-1 {
+                    countList[filter.rawValue] = count
+                } else {
+                    countList.append(count)
+                }
+                rootView.collectionView.reloadItems(at: [IndexPath(row: filter.rawValue, section: 0)])
             }
-            rootView.collectionView.reloadItems(at: [IndexPath(row: filter.rawValue, section: 0)])
         }
         print(#function, countList)
     }
@@ -99,12 +103,12 @@ extension MainViewController: MainViewDelegate {
     func goAddTodoViewController() {
         let nextVC = AddTodoViewController()
         nextVC.delegate = self
-        self.navigationPresentView(view: nextVC, presentationStyle: nil, animated: true)
+        self.presentNavgationController(view: nextVC, presentationStyle: nil, animated: true)
     }
     
     func goTodoListViewController() {
         let nextVC = TodoListViewController()
-        pushAfterView(view: nextVC, backButton: true, animated: true)
+        pushViewController(view: nextVC, backButton: true, animated: true)
     }
     
 }
