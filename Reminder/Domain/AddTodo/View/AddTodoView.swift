@@ -191,19 +191,19 @@ final class AddTodoView: BaseView {
         makeToast(column.inputErrorMessage, duration: 3.0, position: .bottom)
     }
     
-    func callRepositoryError(_ error: RepositoryError, _ column: TodoModel.Column? = nil) {
-        if error == .updatedFailed, let column {
-            makeToast(column.updatePropertyErrorMessage, duration: 3.0, position: .bottom)
-        } else {
-            makeToast(error.message, duration: 3.0, position: .bottom)
-        }
-    }
-    
-    func callRepositoryStatus(_ status: RepositoryStatus, _ column: TodoModel.Column? = nil) {
-        if status == .updateSuccess, let column {
-            makeToast(column.updatePropertSuccessMessage, duration: 3.0, position: .bottom)
-        } else {
-            makeToast(status.message, duration: 3.0, position: .bottom)
-        }
-    }
+//    func callRepositoryError(_ error: RepositoryError, _ column: TodoModel.Column? = nil) {
+//        if error == .updatedFailed, let column {
+//            makeToast(column.updatePropertyErrorMessage, duration: 3.0, position: .bottom)
+//        } else {
+//            makeToast(error.message, duration: 3.0, position: .bottom)
+//        }
+//    }
+//    
+//    func callRepositoryStatus(_ status: RepositoryStatus, _ column: TodoModel.Column? = nil) {
+//        if status == .updateSuccess, let column {
+//            makeToast(column.updatePropertSuccessMessage, duration: 3.0, position: .bottom)
+//        } else {
+//            makeToast(status.message, duration: 3.0, position: .bottom)
+//        }
+//    }
 }

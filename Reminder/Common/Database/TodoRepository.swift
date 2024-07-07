@@ -65,8 +65,8 @@ final class TodoRepository {
     }
     
     func deleteItem(_ data: Object, fileName: String? = nil, complitionHandler: RepositoryResult) {
-        if let fileName, let deleteResult = Utils.resourceManager.removeImageFromDocument(filename: fileName) {
-           
+        if let fileName {
+            Utils.resourceManager.removeImageFromDocument(filename: fileName)
         }
         do {
             try realm.write {

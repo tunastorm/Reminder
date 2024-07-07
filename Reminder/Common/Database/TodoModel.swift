@@ -40,6 +40,27 @@ final class TodoModel: Object {
         case isFlag
         case isComplete
         
+        var krColumn: String {
+            switch self {
+            case .id:
+                return "아이디"
+            case .title:
+                return "제목"
+            case .contents:
+                return "내용"
+            case .deadline:
+                return "마감일"
+            case .tag:
+                return "태그"
+            case .priority:
+                return "우선순위"
+            case .isFlag:
+                return "깃발"
+            case .isComplete:
+                return "완료여부"
+            }
+        }
+        
         enum PriortyLevel: Int, CaseIterable {
             case low = 1
             case middle
@@ -62,15 +83,15 @@ final class TodoModel: Object {
         }
         
         var inputErrorMessage: String {
-            return "\(self)값이 없거나 유효하지 않습니다."
+            return "\(self.krColumn) 값이 없거나 유효하지 않습니다."
         }
         
         var updatePropertSuccessMessage: String {
-            return "\(self)의 수정이 완료되었습니다."
+            return "\(self.krColumn) 의 수정이 완료되었습니다."
         }
         
         var updatePropertyErrorMessage: String {
-            return "\(self)의 수정에 실패하였습니다."
+            return "\(self.krColumn) 의 수정에 실패하였습니다."
         }
     }
 }
