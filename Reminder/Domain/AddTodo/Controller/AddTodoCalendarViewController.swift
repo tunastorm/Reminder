@@ -10,7 +10,7 @@ import UIKit
 
 final class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarView> {
     
-    var delegate: DataReceiveDelegate?
+    var delegate: addTodoViewDelegate?
     
     var selectedDate: Date? = nil
     
@@ -30,7 +30,17 @@ final class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarVie
         guard let selectedDate, let delegate else {
             return
         }
-        delegate.receiveData(data: selectedDate)
+        if delegate.checkIsEditView() {
+            delegate.receiveData(data: selectedDate)
+        } else {
+            do {
+                try realm.write {
+                    self.delegate?.receiveData(data: selectedDate)
+                }
+            } catch {
+                
+            }
+        }
     }
     
     func configCalendar() {

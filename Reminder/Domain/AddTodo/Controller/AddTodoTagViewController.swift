@@ -15,7 +15,7 @@ protocol AddTodoTagViewDelegate {
 
 final class AddTodoTagViewController: BaseViewController<AddTodoTagView> {
     
-    var delegate: DataReceiveDelegate?
+    var delegate: addTodoViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +73,18 @@ extension AddTodoTagViewController: AddTodoTagViewDelegate {
             return
         }
         print(#function, "태그설정완료")
-        delegate.receiveData(data: filtered)
+        if delegate.checkIsEditView() {
+            delegate.receiveData(data: filtered)
+        } else {
+            do {
+                try realm.write {
+                    self.delegate?.receiveData(data: filtered)
+                }
+            } catch {
+                
+            }
+        }
+      
 //        popBeforeViewController(animated: true)
     }
 }

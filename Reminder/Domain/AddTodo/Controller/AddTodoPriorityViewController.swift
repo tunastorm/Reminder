@@ -10,7 +10,7 @@ import UIKit
 
 final class AddTodoPriorityViewController: BaseViewController<AddTodoPriorityView> {
     
-    var delegate: DataReceiveDelegate?
+    var delegate: addTodoViewDelegate?
     
     let pickerList = TodoModel.Column.priority.allLevels
     
@@ -33,7 +33,17 @@ final class AddTodoPriorityViewController: BaseViewController<AddTodoPriorityVie
         guard let selectedPriority, let delegate else {
             return
         }
-        delegate.receiveData(data: selectedPriority)
+        if delegate.checkIsEditView() {
+            delegate.receiveData(data: selectedPriority)
+        } else {
+            do {
+                try realm.write {
+                    self.delegate?.receiveData(data: selectedPriority)
+                }
+            } catch {
+                
+            }
+        }
     }
 }
 

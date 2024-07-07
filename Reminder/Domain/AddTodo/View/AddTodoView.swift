@@ -21,6 +21,7 @@ final class AddTodoView: BaseView {
         $0.layer.cornerRadius = 10
         $0.layer.masksToBounds = true
     }
+    
     let titleTextField = UITextField().then {
         $0.placeholder = "제목"
         $0.font = .systemFont(ofSize: 14)
@@ -122,8 +123,14 @@ final class AddTodoView: BaseView {
         let minPriority = TodoModel.Column.PriortyLevel.low.rawValue
         let maxPriority = TodoModel.Column.PriortyLevel.high.rawValue
         
-        if contentsTextView.text == "메모", !isEditView, let contents = todo.contents {
+        if !isEditView {
+            titleTextField.text = todo.title
+            titleTextField.textColor = .systemGray5
+        }
+        
+        if !isEditView, let contents = todo.contents {
            contentsTextView.text = contents
+            contentsTextView.textColor = .systemGray5
         }
         if let deadline = todo.deadline {
             Utils.dateFormatter.dateFormat = "yyyy. M. d."
@@ -132,24 +139,20 @@ final class AddTodoView: BaseView {
         if !todo.tag.isEmpty {
             tagView.selectedTextField.placeholder = "#\(todo.tag)"
         }
-        if  let priority = todo.priority, minPriority <= priority && priority <= maxPriority {
+        if let priority = todo.priority, minPriority <= priority && priority <= maxPriority {
             print(#function, todo.priority)
             let krPriority = TodoModel.Column.priority.allLevels[priority-1].krLevel
             priorityView.selectedTextField.placeholder = krPriority
         }
+        addImageView.itemName.text = "이미지"
+        if !isEditView, let delegate, let image = delegate.loadImage() {
+             configAddImageView(image: image)
+        }
     }
     
     func editingToggle(isEditView: Bool, todo: TodoModel) {
-        titleTextField.isUserInteractionEnabled = isEditView
-        contentsTextView.isUserInteractionEnabled = isEditView
-        deadlineView.setButton.isHidden = !isEditView
-        tagView.setButton.isHidden = !isEditView
-        priorityView.setButton.isHidden = !isEditView
-        addImageView.setButton.isHidden = !isEditView
         if !isEditView {
             configItem(todo: todo, isEditView: isEditView)
-            titleTextField.text = "메모"
-            contentsTextView.textColor = .systemGray5
         }
     }
     

@@ -27,7 +27,17 @@ extension AddTodoViewController: UITextViewDelegate {
             textView.textColor = .lightGray
             return true
         }
-        todo.contents = filterd
+        if isEditView {
+            todo.contents = filterd
+        } else {
+            do {
+                try realm.write {
+                    todo.contents = filterd
+                }
+            } catch { }
+        }
+        
+        
         return true
     }
 }

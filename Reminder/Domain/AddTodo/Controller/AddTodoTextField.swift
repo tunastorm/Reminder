@@ -32,7 +32,15 @@ extension AddTodoViewController: UITextFieldDelegate {
             textField.placeholder = "제목"
             return true
         }
-        todo.title = filtered
+        if isEditView {
+            todo.title = filtered
+        } else {
+            do {
+                try realm.write {
+                    todo.title = filtered
+                }
+            } catch { }
+        }
         return true
     }
 }

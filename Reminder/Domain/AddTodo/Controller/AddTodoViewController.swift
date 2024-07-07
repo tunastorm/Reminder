@@ -10,8 +10,11 @@ import PhotosUI
 
 
 protocol addTodoViewDelegate {
+    func checkIsEditView() -> Bool
     func pushViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     func showImagePickerView()
+    func loadImage() -> UIImage?
+    func receiveData<T>(data: T) 
 }
 
 
@@ -45,19 +48,28 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
         rootView.editingToggle(isEditView: isEditView, todo: todo)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     override func configNavigationbar(bgColor: UIColor) {
         super.configNavigationbar(bgColor: bgColor)
         navigationItem.rightBarButtonItem?.isHidden = !isEditView
         navigationItem.leftBarButtonItem?.isHidden = !isEditView
         if isEditView {
             let leftBarbuttonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancleAddTodo))
-            let rightBarbuttonITem = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(excuteAddTodo))
-            rightBarbuttonITem.tintColor = .lightGray
+            let rightBarbuttonItem = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(excuteAddTodo))
+            rightBarbuttonItem.tintColor = .lightGray
             navigationItem.leftBarButtonItem = leftBarbuttonItem
-            navigationItem.rightBarButtonItem = rightBarbuttonITem
+            navigationItem.rightBarButtonItem = rightBarbuttonItem
             navigationItem.title = "새로운 할 일"
         } else {
-            navigationItem.title = todo.title
+            let barButtonItem1 = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(deleteTodo))
+            let barButtonItem2 = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(updateTodo))
+            barButtonItem1.tintColor = .lightGray
+            barButtonItem2.tintColor = .systemBlue
+            navigationItem.rightBarButtonItems = [barButtonItem1, barButtonItem2]
+            navigationItem.title = "할일 상세"
         }
     }
     
@@ -97,14 +109,40 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
         saveImageToDocument(image: uploadedImage, filename: String(describing: todo.id))
     }
     
-    func showImagePickerView() {
-        var config = PHPickerConfiguration()
-        config.selectionLimit = 3
-        config.filter = .any(of: [.screenshots, .images])
-        
-        let picker = PHPickerViewController(configuration: config)
-        picker.delegate = self
-        present(picker, animated: true)
+    
+    @objc func updateTodo() {
+        guard let text = rootView.titleTextField.text, Utils.textFilter.filterSerialSpace(text) else {
+            rootView.callCreateError(column: TodoModel.Column.title)
+            return
+        }
+        guard let tag = Utils.textFilter.removeSpace(todo.tag) else {
+            rootView.callCreateError(column: TodoModel.Column.tag)
+            return
+        }
+        do {
+            try realm.write {
+                realm.create(TodoModel.self, update: .modified)
+            }
+            popBeforeViewController(animated: true)
+        } catch {
+            print(error)
+        }
+        guard let uploadedImage else {
+            return
+        }
+        saveImageToDocument(image: uploadedImage, filename: String(describing: todo.id))
+    }
+    
+    @objc func deleteTodo() {
+        do {
+            try realm.write {
+                realm.delete(todo)
+            }
+            delegate?.configCountList()
+            popBeforeViewController(animated: true)
+        } catch {
+            
+        }
     }
     
     @objc func cancleAddTodo() {
@@ -123,16 +161,19 @@ extension AddTodoViewController: PHPickerViewControllerDelegate {
                     guard let image = image as? UIImage else {
                         return
                     }
-                    self.saveImageToDocument(image: image, filename: String(describing: self.todo.id))
-                    self.uploadedImage = self.loadImageToDocument(filename: String(describing: self.todo.id))
+                    self.uploadedImage = image
                 }
             }
         }
     }
 }
 
-extension AddTodoViewController: ViewTransitionDelegate, addTodoViewDelegate {
+extension AddTodoViewController: ViewTransitionDelegate, addTodoViewDelegate, DataReceiveDelegate {
   
+    func checkIsEditView() -> Bool {
+        return isEditView
+    }
+    
     func pushViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle? = nil, animated: Bool) where T : UIViewController {
         print( self.self, #function)
         // 어떻게 추상화하면 좋을까.
@@ -160,9 +201,21 @@ extension AddTodoViewController: ViewTransitionDelegate, addTodoViewDelegate {
         print(#function, "오이")
         pushViewController(view: nextVC, backButton: true, animated: true)
     }
-}
-
-extension AddTodoViewController: DataReceiveDelegate {
+    
+    func showImagePickerView() {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 3
+        config.filter = .any(of: [.screenshots, .images])
+        
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    func loadImage() -> UIImage? {
+        return loadImageToDocument(filename: String(describing: todo.id))
+    }
+    
     func receiveData<T>(data: T) {
         switch T.self{
         case is Date.Type: todo.deadline = data as! Date

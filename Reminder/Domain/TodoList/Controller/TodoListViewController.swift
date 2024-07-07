@@ -38,6 +38,11 @@ final class TodoListViewController: BaseViewController<TodoListView> {
         configList(sort: TodoModel.Column.deadline)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.configCountList()
+    }
+    
     override func configNavigationbar(bgColor: UIColor) {
         super.configNavigationbar(bgColor: bgColor)
         configFilterBarButton()
