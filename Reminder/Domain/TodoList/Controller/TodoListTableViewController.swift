@@ -10,19 +10,14 @@ import UIKit
 
 extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let filter else {
-            return UIView()
-        }
-        let headerView = HeaderView()
-        
-        var title = filter.krName
-        if filter == .date, let date {
-            title = Utils.dateFormatter.string(from: date)
-        }
-        headerView.configHeaderLabel(title: title)
-        return headerView
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        guard let filter else {
+//            return UIView()
+//        }
+//        let headerView = HeaderView()
+//
+//        return headerView
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list.count

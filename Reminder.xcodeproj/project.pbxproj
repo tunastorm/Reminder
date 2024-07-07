@@ -60,6 +60,7 @@
 		BC7F03D82C3A641F000721A2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03D72C3A641F000721A2 /* UIImage+Extension.swift */; };
 		BC7F03DA2C3A8B5B000721A2 /* ResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03D92C3A8B5B000721A2 /* ResourceManager.swift */; };
 		BC7F03DC2C3A8E64000721A2 /* repositroyStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03DB2C3A8E64000721A2 /* repositroyStatus.swift */; };
+		BC7F03DE2C3B09D3000721A2 /* TodoListSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03DD2C3B09D3000721A2 /* TodoListSearchController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -125,6 +126,7 @@
 		BC7F03D72C3A641F000721A2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		BC7F03D92C3A8B5B000721A2 /* ResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManager.swift; sourceTree = "<group>"; };
 		BC7F03DB2C3A8E64000721A2 /* repositroyStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = repositroyStatus.swift; sourceTree = "<group>"; };
+		BC7F03DD2C3B09D3000721A2 /* TodoListSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListSearchController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1ED35F2C33E84700BFD44A /* TodoListViewController.swift */,
+				BC7F03DD2C3B09D3000721A2 /* TodoListSearchController.swift */,
 				BC1ED36D2C33EDC800BFD44A /* TodoListTableViewController.swift */,
 			);
 			path = Controller;
@@ -467,6 +470,7 @@
 				BC1ED37C2C33F63800BFD44A /* MainViewController.swift in Sources */,
 				BC1ED3982C343AB900BFD44A /* HeaderView.swift in Sources */,
 				BC7F03DC2C3A8E64000721A2 /* repositroyStatus.swift in Sources */,
+				BC7F03DE2C3B09D3000721A2 /* TodoListSearchController.swift in Sources */,
 				BC1ED3632C33E89900BFD44A /* BaseView.swift in Sources */,
 				BC7F03D82C3A641F000721A2 /* UIImage+Extension.swift in Sources */,
 				BC1ED38E2C34159600BFD44A /* AddTodoTextField.swift in Sources */,

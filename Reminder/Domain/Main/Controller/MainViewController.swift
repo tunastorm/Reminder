@@ -64,7 +64,7 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
     }
     
     func getFilteredCount(_ filter: TodoFilter, sort: TodoModel.Column) -> Int {
-        let result = repository.fetchAllFiltered(obejct: object, sortKey: sort.rawValue) { todo in
+        let result = repository.fetchAllFiltered(obejct: object, sortKey: sort) { todo in
             switch filter {
             case .today: todo.deadline != nil && todo.deadline == today
             case .planned: todo.deadline != nil && todo.deadline > today
@@ -93,7 +93,6 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
     
     @objc func calendarFilterClicked() {
         let vc = MainCalendarFilterViewController()
-    
         presentNavigationController(view: vc, presentationStyle: .fullScreen, animated: true)
     }
     

@@ -36,6 +36,10 @@ final class TodoListViewController: BaseViewController<TodoListView> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configList(sort: TodoModel.Column.deadline)
+        guard let filter else {
+            return
+        }
+        rootView.configHeaderView(filter: filter, date: date)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -49,14 +53,25 @@ final class TodoListViewController: BaseViewController<TodoListView> {
     }
     
     override func configInteraction() {
+        configSearchContoller()
         rootView.tableView.delegate = self
         rootView.tableView.dataSource = self
         rootView.tableView.register(TodoListTableViewCell.self,
                                     forCellReuseIdentifier: TodoListTableViewCell.identifier)
     }
     
+    func configSearchContoller() {
+        let searchController = UISearchController(searchResultsController: nil)
+        self.navigationItem.searchController = searchController
+        searchController.hidesNavigationBarDuringPresentation = false
+        rootView.searchBar = searchController.searchBar
+        rootView.searchBar?.setShowsCancelButton(false, animated: false)
+        rootView.searchBar?.delegate = self
+        rootView.configSearchBar()
+    }
+    
     func configList(sort: TodoModel.Column, acending: Bool = true) {
-        list = repository.fetchAllFiltered(obejct: object, sortKey: sort.rawValue, acending: acending) {
+        list = repository.fetchAllFiltered(obejct: object, sortKey: sort, acending: acending) {
             switch filter {
             case .today: $0.deadline != nil && $0.deadline == today
             case .planned: $0.deadline != nil && $0.deadline > today
