@@ -5,7 +5,7 @@
 //  Created by 유철원 on 7/2/24.
 //
 
-import Foundation
+import UIKit
 import RealmSwift
 
 
@@ -16,18 +16,18 @@ final class TodoModel: Object {
     @Persisted var deadline: Date?
     @Persisted var tag: String
     @Persisted var priority: Int?
-    @Persisted var imageId: Int?
     @Persisted var isFlag: Bool
+    @Persisted var isComplete: Bool
     
-    convenience init(title: String, contents: String? = nil, deadline: Date? = nil, tag: String, priority: Int? = nil, imageId: Int? = nil, isFlag: Bool = false) {
+    convenience init(title: String, contents: String? = nil, deadline: Date? = nil, tag: String, priority: Int? = nil, isFlag: Bool = false, isComplete: Bool = false) {
         self.init()
         self.title = title
         self.contents = contents
         self.deadline = deadline
         self.tag = tag
         self.priority = priority
-        self.imageId = imageId
         self.isFlag = isFlag
+        self.isComplete = isComplete
     }
     
     enum Column: String, CaseIterable {
@@ -37,7 +37,6 @@ final class TodoModel: Object {
         case deadline
         case tag
         case priority
-        case imageId
         case isFlag
         case isComplete
         

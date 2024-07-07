@@ -12,7 +12,9 @@ import Then
 
 final class AddTodoView: BaseView {
     
-    var delegate: ViewTransitionDelegate?
+    var delegate: addTodoViewDelegate?
+    
+    var showAddImageView: (() -> Void)?
     
     private let titleContentsView = UIView().then {
         $0.backgroundColor = .gray
@@ -50,7 +52,7 @@ final class AddTodoView: BaseView {
         $0.itemName.text = "우선순위"
         $0.setButton.tag = 2
     }
-    private let addImageView = AddTodoItem().then {
+    let addImageView = AddTodoImageView().then {
         $0.itemName.text = "이미지 추가"
         $0.setButton.tag = 3
     }
@@ -88,7 +90,7 @@ final class AddTodoView: BaseView {
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
         }
         addImageView.snp.makeConstraints {
-            $0.height.equalTo(40)
+            $0.height.greaterThanOrEqualTo(40)
             $0.top.equalTo(priorityView.snp.bottom).offset(10)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
         }
@@ -113,6 +115,7 @@ final class AddTodoView: BaseView {
         deadlineView.setButton.addTarget(self, action: #selector(goInputViewController), for: .touchUpInside)
         tagView.setButton.addTarget(self, action: #selector(goInputViewController), for: .touchUpInside)
         priorityView.setButton.addTarget(self, action: #selector(goInputViewController), for: .touchUpInside)
+        addImageView.setButton.addTarget(self, action: #selector(addImageViewClicked), for: .touchUpInside)
     }
     
     func configItem(todo: TodoModel, isEditView: Bool) {
@@ -154,6 +157,18 @@ final class AddTodoView: BaseView {
         makeToast(column.CreateError, duration: 3.0, position: .bottom)
     }
     
+    func configAddImageView(image: UIImage) {
+        print(#function, image)
+        addImageView.snp.makeConstraints {
+            $0.bottom.greaterThanOrEqualTo(safeAreaLayoutGuide).inset(10)
+        }
+        addImageView.uploadedImageView.snp.updateConstraints {
+            $0.height.lessThanOrEqualTo(380)
+        }
+        addImageView.uploadedImageView.image = image
+//        print(#function,addImageView.uploadedImageView.image ?? <#default value#>)
+    }
+    
     @objc func goInputViewController(_ sender: UIButton) {
         guard let delegate else {
             return
@@ -162,9 +177,14 @@ final class AddTodoView: BaseView {
         case 0: delegate.pushViewWithType(type: AddTodoCalendarViewController.self, presentationStyle: .none, animated: true)
         case 1: delegate.pushViewWithType(type: AddTodoTagViewController.self, presentationStyle: .none, animated: true)
         case 2: delegate.pushViewWithType(type: AddTodoPriorityViewController.self, presentationStyle: .none, animated: true)
-        case 3: makeToast("미구현 기능", duration: 3.0, position: .bottom)
         default: return
         }
     }
     
+    @objc func addImageViewClicked() {
+        guard let delegate else {
+            return
+        }
+        delegate.showImagePickerView()
+    }
 }

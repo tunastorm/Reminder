@@ -6,10 +6,17 @@
 //
 
 import UIKit
+import PhotosUI
+
+
+protocol addTodoViewDelegate {
+    func pushViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle?, animated: Bool)
+    func showImagePickerView()
+}
 
 
 final class AddTodoViewController: BaseViewController<AddTodoView> {
-    
+  
     var delegate: UpdateListDelegate?
     
     var listId: Int?
@@ -21,10 +28,17 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
             rootView.configItem(todo: todo, isEditView: isEditView)
         }
     }
-//    var deadline: Date?
-//    var tag: String?
-//    var priority: TodoModel.Column.PriortyLevel?
-//    
+    
+    var uploadedImage: UIImage? {
+        didSet {
+            guard let uploadedImage else {
+                return
+            }
+            rootView.configAddImageView(image: uploadedImage)
+        }
+    }
+
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationbar(bgColor: .darkGray)
@@ -77,6 +91,20 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
         } catch {
             print(error)
         }
+        guard let uploadedImage else {
+            return
+        }
+        saveImageToDocument(image: uploadedImage, filename: String(describing: todo.id))
+    }
+    
+    func showImagePickerView() {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 3
+        config.filter = .any(of: [.screenshots, .images])
+        
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
     }
     
     @objc func cancleAddTodo() {
@@ -84,7 +112,26 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
     }
 }
 
-extension AddTodoViewController: ViewTransitionDelegate {
+extension AddTodoViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+       
+        if let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            dismiss(animated: true)
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                DispatchQueue.main.async {
+                    guard let image = image as? UIImage else {
+                        return
+                    }
+                    self.saveImageToDocument(image: image, filename: String(describing: self.todo.id))
+                    self.uploadedImage = self.loadImageToDocument(filename: String(describing: self.todo.id))
+                }
+            }
+        }
+    }
+}
+
+extension AddTodoViewController: ViewTransitionDelegate, addTodoViewDelegate {
   
     func pushViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle? = nil, animated: Bool) where T : UIViewController {
         print( self.self, #function)

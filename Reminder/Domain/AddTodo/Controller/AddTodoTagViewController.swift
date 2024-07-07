@@ -58,12 +58,6 @@ extension AddTodoTagViewController: UITextFieldDelegate {
             print(#function, "입력텍스트 없음")
             return true
         }
-        
-//        guard textField == rootView.tagTextField, let filtered = TextInputFilter().tagFilter(textField.text ?? "") else {
-//            textField.placeholder = "사용할 태그를 입력하세요"
-//            return true
-//        }
-
         return true
     }
 }

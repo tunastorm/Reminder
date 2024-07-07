@@ -147,6 +147,7 @@ final class TodoListTableViewCell: BaseTableViewCell {
         }
         titleLabel.text = data.title
         tagLabel.text = "#\(data.tag)"
+        
     }
 }
 
