@@ -13,6 +13,7 @@ import Then
 final class TodoListTableViewCell: BaseTableViewCell {
     
     let radioButton = UIButton().then {
+        print(#function, "radioButton 만듬")
         $0.titleLabel?.font = .systemFont(ofSize: 0)
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
@@ -113,6 +114,15 @@ final class TodoListTableViewCell: BaseTableViewCell {
     
     func configCell(data: TodoModel) {
         print(#function, data)
+        
+        if data.isComplete {
+            radioButton.setImage(Resource.SystemImage.checkmark, for: .normal)
+            radioButton.tintColor = .white
+            radioButton.backgroundColor = .systemBlue
+        } else {
+            radioButton.setImage(nil, for: .normal)
+            radioButton.backgroundColor = .clear
+        }
         
         if let priority = data.priority {
             var a = ""

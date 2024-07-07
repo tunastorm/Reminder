@@ -33,6 +33,8 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.configCell(data: list[indexPath.row])
+        cell.radioButton.tag = indexPath.row
+        cell.radioButton.addTarget(self, action: #selector(updateIsComplete), for: .touchUpInside)
         
         return cell
     }

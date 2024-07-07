@@ -69,19 +69,19 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
             case .today: todo.deadline != nil && todo.deadline == today
             case .planned: todo.deadline != nil && todo.deadline > today
             case .flagged: todo.isFlag
-            case .completed: todo.deadline < today
+            case .completed: todo.isComplete
             default: todo.priority > 0 // all case
             }
         }
-        print(#function, result)
+        print(#function, filter, result)
         return result == [] ? 0 : result.count
     }
     
     func configCountList() {
-        print(#function, TodoFilter.allCases)
+//        print(#function, TodoFilter.allCases)
         
         TodoFilter.allCases.forEach { filter in
-            print(#function, filter.rawValue, TodoFilter.displayCount)
+//            print(#function, filter.rawValue, TodoFilter.displayCount)
             if filter.rawValue < TodoFilter.displayCount {
                 let count = getFilteredCount(filter, sort: TodoModel.Column.deadline)
                 if countList.count == TodoFilter.displayCount {
@@ -92,7 +92,6 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
                 rootView.collectionView.reloadItems(at: [IndexPath(row: filter.rawValue, section: 0)])
             }
         }
-//        print(#function, countList)
     }
     
     @objc func calendarFilterClicked() {

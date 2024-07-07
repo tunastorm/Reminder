@@ -61,7 +61,7 @@ final class TodoListViewController: BaseViewController<TodoListView> {
             case .today: $0.deadline != nil && $0.deadline == today
             case .planned: $0.deadline != nil && $0.deadline > today
             case .flagged: $0.isFlag
-            case .completed: $0.deadline < today
+            case .completed: $0.isComplete
             case .lowPriority: $0.priority == TodoModel.Column.PriortyLevel.low.rawValue
             case .date: $0.deadline != nil && $0.deadline == self.date
             default: $0.priority > 0 // all case
@@ -95,6 +95,18 @@ final class TodoListViewController: BaseViewController<TodoListView> {
     
     func fatchRealm() {
         rootView.tableView.reloadData()
+    }
+    
+    @objc func updateIsComplete(_ sender: UIButton) {
+        do {
+            try realm.write {
+                self.list[sender.tag].isComplete.toggle()
+            }
+            print(#function, sender.tag, list[sender.tag].isComplete)
+            self.rootView.tableView.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .none)
+        } catch {
+            
+        }
     }
 }
 
