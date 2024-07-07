@@ -36,12 +36,15 @@ final class AddTodoPriorityViewController: BaseViewController<AddTodoPriorityVie
         if delegate.checkIsEditView() {
             delegate.receiveData(data: selectedPriority)
         } else {
-            do {
-                try realm.write {
-                    self.delegate?.receiveData(data: selectedPriority)
+            let repository = TodoRepository()
+            repository.updateProperty {
+                delegate.receiveData(data: selectedPriority)
+            } completionHandler: { status, error in
+                guard error == nil, let status else {
+                    self.delegate?.callErrorMessage(error ?? .unexpectedError, .priority)
+                    return
                 }
-            } catch {
-                
+                self.delegate?.callStatusMessage(status, .priority)
             }
         }
     }

@@ -61,8 +61,16 @@ final class TodoModel: Object {
             return PriortyLevel.allCases
         }
         
-        var CreateError: String {
+        var inputErrorMessage: String {
             return "\(self)값이 없거나 유효하지 않습니다."
+        }
+        
+        var updatePropertSuccessMessage: String {
+            return "\(self)의 수정이 완료되었습니다."
+        }
+        
+        var updatePropertyErrorMessage: String {
+            return "\(self)의 수정에 실패하였습니다."
         }
     }
 }

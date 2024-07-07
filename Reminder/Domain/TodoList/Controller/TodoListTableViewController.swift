@@ -47,13 +47,31 @@ extension TodoListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "삭제") { action, view, complitionHandler in
         
-            try! self.realm.write {
-                self.realm.delete(self.list[indexPath.row])
+        let flag = UIContextualAction(style: .normal, title: "깃발설정") {_,_,_ in 
+            self.repository.updateProperty {
+                self.list[indexPath.row].isFlag.toggle()
+            } completionHandler: { status, error in
+                guard error == nil, let status else {
+                    makeBasicToast(message: "깃발 설정에 실패하였습니다.", duration: 3.0, position: .bottom)
+                    return
+                }
+                self.delegate?.configCountList()
+                self.fatchRealm()
             }
-            self.delegate?.configCountList()
-            self.fatchRealm()
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "삭제") { action, view, complitionHandler in
+            self.repository.updateProperty {
+                self.realm.delete(self.list[indexPath.row])
+            } completionHandler: { status, error in
+                guard error == nil, let status else {
+                    makeBasicToast(message: "할일 삭제에 실패하였습니다.", duration: 3.0, position: .bottom)
+                    return
+                }
+                self.delegate?.configCountList()
+                self.fatchRealm()
+            }
         }
         return UISwipeActionsConfiguration(actions: [delete])
     }

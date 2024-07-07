@@ -76,15 +76,16 @@ extension AddTodoTagViewController: AddTodoTagViewDelegate {
         if delegate.checkIsEditView() {
             delegate.receiveData(data: filtered)
         } else {
-            do {
-                try realm.write {
-                    self.delegate?.receiveData(data: filtered)
+            let repository = TodoRepository()
+            repository.updateProperty {
+                delegate.receiveData(data: filtered)
+            } completionHandler: { status, error in
+                guard error == nil, let status else {
+                    self.delegate?.callErrorMessage(error ?? .unexpectedError, .tag)
+                    return
                 }
-            } catch {
-                
+                self.delegate?.callStatusMessage(status, .tag)
             }
         }
-      
-//        popBeforeViewController(animated: true)
     }
 }

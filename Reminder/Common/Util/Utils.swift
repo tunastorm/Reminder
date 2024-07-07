@@ -8,6 +8,7 @@
 import Foundation
 
 enum Utils {
-    static let textFilter = TextInputFilter()
     static let dateFormatter = DateFormatter()
+    static let textFilter = TextInputFilter()
+    static let resourceManager = ResourceManager()
 }

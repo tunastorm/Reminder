@@ -76,7 +76,7 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
         iconView.backgroundColor = data.color
         iconImageView.image = data.image
         nameLabel.text = data.krName
-        guard count > 0 else {
+        guard data != .completed else {
             print(#function, "guard 탈락",data)
             countLabel.text = ""
             return

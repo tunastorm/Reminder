@@ -30,14 +30,17 @@ extension AddTodoViewController: UITextViewDelegate {
         if isEditView {
             todo.contents = filterd
         } else {
-            do {
-                try realm.write {
-                    todo.contents = filterd
+            repository.updateProperty {
+                todo.contents = filterd
+            } completionHandler: { status, error in
+                guard error == nil, let status else {
+                    self.rootView.callRepositoryError(.updatedFailed, .contents)
+                    return
                 }
-            } catch { }
+                self.rootView.callRepositoryStatus(.updateSuccess, .contents)
+            }
+
         }
-        
-        
         return true
     }
 }

@@ -13,8 +13,8 @@ final class TodoListViewController: BaseViewController<TodoListView> {
 
     var delegate: UpdateListDelegate?
    
-    private var repository = TodoRepository()
-    private var object = TodoModel.self
+    var repository = TodoRepository()
+    var object = TodoModel.self
  
     
     var filter: TodoFilter?
@@ -64,7 +64,7 @@ final class TodoListViewController: BaseViewController<TodoListView> {
             case .completed: $0.isComplete
             case .lowPriority: $0.priority == TodoModel.Column.PriortyLevel.low.rawValue
             case .date: $0.deadline != nil && $0.deadline == self.date
-            default: $0.priority > 0 // all case
+            default: $0.isComplete || !$0.isComplete // all case
             }
         }
         print(#function, filter, list)

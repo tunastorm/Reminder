@@ -33,12 +33,15 @@ final class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarVie
         if delegate.checkIsEditView() {
             delegate.receiveData(data: selectedDate)
         } else {
-            do {
-                try realm.write {
-                    self.delegate?.receiveData(data: selectedDate)
+            let repository = TodoRepository()
+            repository.updateProperty {
+                self.delegate?.receiveData(data: selectedDate)
+            } completionHandler: { status, error in
+                guard error == nil, let status else {
+                    self.delegate?.callErrorMessage(error ?? .unexpectedError, .deadline)
+                    return
                 }
-            } catch {
-                
+                self.delegate?.callStatusMessage(status, .deadline)
             }
         }
     }

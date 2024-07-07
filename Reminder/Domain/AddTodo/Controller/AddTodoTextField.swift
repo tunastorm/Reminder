@@ -35,11 +35,15 @@ extension AddTodoViewController: UITextFieldDelegate {
         if isEditView {
             todo.title = filtered
         } else {
-            do {
-                try realm.write {
-                    todo.title = filtered
+            repository.updateProperty {
+                self.todo.title = filtered
+            } completionHandler: { status, error in
+                guard error == nil, let status else {
+                    self.rootView.callRepositoryError(.updatedFailed, .title)
+                    return
                 }
-            } catch { }
+                self.rootView.callRepositoryStatus(.updateSuccess, .title)
+            }
         }
         return true
     }

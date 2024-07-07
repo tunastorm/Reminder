@@ -70,7 +70,7 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
             case .planned: todo.deadline != nil && todo.deadline > today
             case .flagged: todo.isFlag
             case .completed: todo.isComplete
-            default: todo.priority > 0 // all case
+            default: todo.isComplete || !todo.isComplete
             }
         }
         print(#function, filter, result)
@@ -78,10 +78,7 @@ final class MainViewController: BaseViewController<MainView>, UpdateListDelegate
     }
     
     func configCountList() {
-//        print(#function, TodoFilter.allCases)
-        
         TodoFilter.allCases.forEach { filter in
-//            print(#function, filter.rawValue, TodoFilter.displayCount)
             if filter.rawValue < TodoFilter.displayCount {
                 let count = getFilteredCount(filter, sort: TodoModel.Column.deadline)
                 if countList.count == TodoFilter.displayCount {

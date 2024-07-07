@@ -9,17 +9,22 @@ import Foundation
 import RealmSwift
 
 
+// complitionHandler를 이용해 완료 후의 작업 처리와 에러처리 동시 구현 가능할 것
 final class TodoRepository {
     
-    private let realm = try! Realm()
+    typealias RepositoryResult = (_ status: RepositoryStatus?, _ error: RepositoryError?) -> Void
+    typealias PropertyUpdate = () -> Void
     
-    func createItem(_ data: Object) {
+    private let realm = try! Realm()
+
+    func createItem(_ data: Object, complitionHandler: RepositoryResult) {
         do {
             try realm.write {
                 realm.add(data)
             }
+            complitionHandler(RepositoryStatus.createSuccess, nil)
         } catch {
-            
+            complitionHandler(nil, RepositoryError.createFailed)
         }
     }
     
@@ -36,24 +41,40 @@ final class TodoRepository {
         let value = realm.objects(obejct).where(filter).sorted(byKeyPath: sortKey, ascending: acending)
         return Array(value)
     }
-
-    func deleteItem<T: Object>(_ data: T) {
+    
+    func updateItem<T:Object>(object: T.Type, complitionHandler: RepositoryResult) {
         do {
             try realm.write {
-                realm.delete(data)
+                realm.create(object, update: .modified)
             }
+            complitionHandler(RepositoryStatus.updateSuccess, nil)
         } catch {
-            
+            complitionHandler(nil, RepositoryError.updatedFailed)
         }
     }
     
-    func deleteItemWithResource(_ data: Object, fileName: String) {
+    func updateProperty(updateHandeler: PropertyUpdate, completionHandler: RepositoryResult) {
+        do {
+            try realm.write {
+                updateHandeler()
+            }
+            completionHandler(RepositoryStatus.updateSuccess, nil)
+        } catch {
+            completionHandler(nil, RepositoryError.updatedFailed)
+        }
+    }
+    
+    func deleteItem(_ data: Object, fileName: String? = nil, complitionHandler: RepositoryResult) {
+        if let fileName, let deleteResult = Utils.resourceManager.removeImageFromDocument(filename: fileName) {
+           
+        }
         do {
             try realm.write {
                 realm.delete(data)
             }
+            complitionHandler(RepositoryStatus.deleteSuccess, nil)
         } catch {
-            
+            complitionHandler(nil, RepositoryError.deleteFailed)
         }
     }
 }

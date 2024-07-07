@@ -156,10 +156,6 @@ final class AddTodoView: BaseView {
         }
     }
     
-    func callCreateError(column: TodoModel.Column) {
-        makeToast(column.CreateError, duration: 3.0, position: .bottom)
-    }
-    
     func configAddImageView(image: UIImage) {
         print(#function, image)
         addImageView.snp.makeConstraints {
@@ -169,7 +165,6 @@ final class AddTodoView: BaseView {
             $0.height.lessThanOrEqualTo(380)
         }
         addImageView.uploadedImageView.image = image
-//        print(#function,addImageView.uploadedImageView.image ?? <#default value#>)
     }
     
     @objc func goInputViewController(_ sender: UIButton) {
@@ -189,5 +184,26 @@ final class AddTodoView: BaseView {
             return
         }
         delegate.showImagePickerView()
+    }
+    
+    
+    func callInputError(column: TodoModel.Column) {
+        makeToast(column.inputErrorMessage, duration: 3.0, position: .bottom)
+    }
+    
+    func callRepositoryError(_ error: RepositoryError, _ column: TodoModel.Column? = nil) {
+        if error == .updatedFailed, let column {
+            makeToast(column.updatePropertyErrorMessage, duration: 3.0, position: .bottom)
+        } else {
+            makeToast(error.message, duration: 3.0, position: .bottom)
+        }
+    }
+    
+    func callRepositoryStatus(_ status: RepositoryStatus, _ column: TodoModel.Column? = nil) {
+        if status == .updateSuccess, let column {
+            makeToast(column.updatePropertSuccessMessage, duration: 3.0, position: .bottom)
+        } else {
+            makeToast(status.message, duration: 3.0, position: .bottom)
+        }
     }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import Toast
 
 
 protocol addTodoViewDelegate {
@@ -14,7 +15,9 @@ protocol addTodoViewDelegate {
     func pushViewWithType<T:UIViewController>(type: T.Type, presentationStyle: UIModalPresentationStyle?, animated: Bool)
     func showImagePickerView()
     func loadImage() -> UIImage?
-    func receiveData<T>(data: T) 
+    func receiveData<T>(data: T)
+    func callStatusMessage(_ status: RepositoryStatus, _ column: TodoModel.Column?)
+    func callErrorMessage(_ error: RepositoryError, _ column: TodoModel.Column?)
 }
 
 
@@ -23,9 +26,8 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
     var delegate: UpdateListDelegate?
     
     var listId: Int?
-    
     var isEditView = true
-    
+    let repository = TodoRepository()
     var todo = TodoModel() {
         didSet {
             rootView.configItem(todo: todo, isEditView: isEditView)
@@ -82,66 +84,76 @@ final class AddTodoViewController: BaseViewController<AddTodoView> {
     
     @objc func excuteAddTodo() {
         guard let text = rootView.titleTextField.text, Utils.textFilter.filterSerialSpace(text) else {
-            rootView.callCreateError(column: TodoModel.Column.title)
+            rootView.callInputError(column: TodoModel.Column.title)
             return
         }
         guard let tag = Utils.textFilter.removeSpace(todo.tag) else {
-            rootView.callCreateError(column: TodoModel.Column.tag)
+            rootView.callInputError(column: TodoModel.Column.tag)
             return
         }
         print(#function, tag)
         todo.title = text
         todo.contents = Utils.textFilter.removeSpace(rootView.contentsTextView.text ?? "")
         print(#function, todo)
-        do {
-            try realm.write {
-                let todo = TodoModel(value: todo)
-                realm.add(todo)
+        let todo = TodoModel(value: todo)
+
+        repository.createItem(todo) { status, error in
+            guard error == nil, let status else {
+                self.rootView.callRepositoryError(error ?? .unexpectedError)
+                return
             }
+            if let uploadedImage {
+                saveImageToDocument(image: uploadedImage, filename: String(describing: todo.id))
+            }
+            self.rootView.callRepositoryStatus(RepositoryStatus.createSuccess)
             delegate?.configCountList()
             cancleAddTodo()
-        } catch {
-            print(error)
         }
-        guard let uploadedImage else {
-            return
-        }
-        saveImageToDocument(image: uploadedImage, filename: String(describing: todo.id))
     }
     
     
     @objc func updateTodo() {
         guard let text = rootView.titleTextField.text, Utils.textFilter.filterSerialSpace(text) else {
-            rootView.callCreateError(column: TodoModel.Column.title)
+            rootView.callInputError(column: TodoModel.Column.title)
             return
         }
+    
         guard let tag = Utils.textFilter.removeSpace(todo.tag) else {
-            rootView.callCreateError(column: TodoModel.Column.tag)
+            rootView.callInputError(column: TodoModel.Column.tag)
             return
         }
-        do {
-            try realm.write {
-                realm.create(TodoModel.self, update: .modified)
+        repository.updateProperty {
+            todo.title = text
+            todo.contents = Utils.textFilter.removeSpace(rootView.contentsTextView.text ?? "")
+            todo.tag = tag
+        } completionHandler: { status, error in
+            guard error == nil, let status else {
+                self.rootView.callRepositoryError(error ?? .unexpectedError)
+                return
             }
+            if let uploadedImage {
+                saveImageToDocument(image: uploadedImage, filename: String(describing: todo.id))
+            }
+            self.rootView.callRepositoryStatus(RepositoryStatus.updateSuccess)
+            delegate?.configCountList()
             popBeforeViewController(animated: true)
-        } catch {
-            print(error)
         }
-        guard let uploadedImage else {
-            return
-        }
-        saveImageToDocument(image: uploadedImage, filename: String(describing: todo.id))
+
     }
     
     @objc func deleteTodo() {
-        do {
-            try realm.write {
-                realm.delete(todo)
+        var fileName: String?
+        if let image = rootView.addImageView.uploadedImageView.image {
+            fileName = String(describing: todo.id)
+        }
+        repository.deleteItem(todo, fileName: fileName) { status, error in
+            guard error == nil, let status else {
+                self.rootView.callRepositoryError(error ?? .unexpectedError)
+                return
             }
+            self.rootView.callRepositoryStatus(RepositoryStatus.deleteSuccess)
             delegate?.configCountList()
             popBeforeViewController(animated: true)
-        } catch {
-            
         }
     }
     
@@ -169,7 +181,6 @@ extension AddTodoViewController: PHPickerViewControllerDelegate {
 }
 
 extension AddTodoViewController: ViewTransitionDelegate, addTodoViewDelegate, DataReceiveDelegate {
-  
     func checkIsEditView() -> Bool {
         return isEditView
     }
@@ -226,5 +237,13 @@ extension AddTodoViewController: ViewTransitionDelegate, addTodoViewDelegate, Da
         default: return
         }
         rootView.configItem(todo: todo, isEditView: isEditView)
+    }
+    
+    func callStatusMessage(_ status: RepositoryStatus, _ column: TodoModel.Column? = nil) {
+        self.rootView.callRepositoryStatus(status, column)
+    }
+    
+    func callErrorMessage(_ error: RepositoryError, _ column: TodoModel.Column? = nil) {
+        self.rootView.callRepositoryError(error, column)
     }
 }

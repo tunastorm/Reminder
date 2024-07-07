@@ -53,14 +53,5 @@ final class MainCalendarFilterView: BaseView {
         case .down: calendarView.setScope(.month, animated: true)
         default : return
         }
-       
     }
-//    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
-//        calendar.snp.updateConstraints { (make) in
-//            make.height.equalTo(bounds.height)
-//            // Do other updates
-//        }
-//        self.layoutIfNeeded()
-//    }
-    
 }

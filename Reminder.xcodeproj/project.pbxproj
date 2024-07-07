@@ -58,6 +58,8 @@
 		BC7F03D42C3A5925000721A2 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03D32C3A5925000721A2 /* UIViewController+Extension.swift */; };
 		BC7F03D62C3A60E7000721A2 /* AddTodoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03D52C3A60E7000721A2 /* AddTodoImageView.swift */; };
 		BC7F03D82C3A641F000721A2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03D72C3A641F000721A2 /* UIImage+Extension.swift */; };
+		BC7F03DA2C3A8B5B000721A2 /* ResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03D92C3A8B5B000721A2 /* ResourceManager.swift */; };
+		BC7F03DC2C3A8E64000721A2 /* repositroyStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F03DB2C3A8E64000721A2 /* repositroyStatus.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -121,6 +123,8 @@
 		BC7F03D32C3A5925000721A2 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		BC7F03D52C3A60E7000721A2 /* AddTodoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoImageView.swift; sourceTree = "<group>"; };
 		BC7F03D72C3A641F000721A2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		BC7F03D92C3A8B5B000721A2 /* ResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManager.swift; sourceTree = "<group>"; };
+		BC7F03DB2C3A8E64000721A2 /* repositroyStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = repositroyStatus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -340,6 +344,8 @@
 				BC7F03C22C3691DB000721A2 /* TodoRepository.swift */,
 				BC1ED35D2C33E64500BFD44A /* TodoModel.swift */,
 				BC7F03C02C368F2C000721A2 /* TodoFilter.swift */,
+				BC7F03D92C3A8B5B000721A2 /* ResourceManager.swift */,
+				BC7F03DB2C3A8E64000721A2 /* repositroyStatus.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -460,9 +466,11 @@
 				BC1ED37E2C33F65500BFD44A /* MainView.swift in Sources */,
 				BC1ED37C2C33F63800BFD44A /* MainViewController.swift in Sources */,
 				BC1ED3982C343AB900BFD44A /* HeaderView.swift in Sources */,
+				BC7F03DC2C3A8E64000721A2 /* repositroyStatus.swift in Sources */,
 				BC1ED3632C33E89900BFD44A /* BaseView.swift in Sources */,
 				BC7F03D82C3A641F000721A2 /* UIImage+Extension.swift in Sources */,
 				BC1ED38E2C34159600BFD44A /* AddTodoTextField.swift in Sources */,
+				BC7F03DA2C3A8B5B000721A2 /* ResourceManager.swift in Sources */,
 				BC1ED3922C34162C00BFD44A /* AddTodoCalendarViewController.swift in Sources */,
 				BC1ED3352C33E37E00BFD44A /* SceneDelegate.swift in Sources */,
 				BC7F03C52C39169B000721A2 /* MainCalendarFilterViewController.swift in Sources */,

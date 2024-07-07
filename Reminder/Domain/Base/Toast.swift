@@ -6,7 +6,6 @@
 //
 
 import UIKit
-
 import Toast
 
 // MARK: - Normal Toast, Message 내용 / duration 지속시간 / position Toast위치
