@@ -12,7 +12,7 @@ final class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarVie
     
     var delegate: DataReceiveDelegate?
     
-    var selectedDate: DateComponents? = nil
+    var selectedDate: Date? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +23,14 @@ final class AddTodoCalendarViewController: BaseViewController<AddTodoCalendarVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationbar(bgColor: .darkGray)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let selectedDate, let delegate else {
+            return
+        }
+        delegate.receiveData(data: selectedDate)
     }
     
     func configCalendar() {
@@ -48,12 +56,10 @@ extension AddTodoCalendarViewController: UICalendarViewDelegate, UICalendarSelec
             return
         }
         selection.setSelected(dateComponents, animated: true)
-        selectedDate = dateComponents
-        guard let selectedDate, let date = Calendar.current.date(from: selectedDate) else {
+        selectedDate = Calendar.current.date(from: dateComponents)
+        guard let selectedDate else {
             return
         }
-        reloadCalendarView(date: date)
-        delegate.receiveData(data: date)
-        popBeforeViewController(animated: true)
+        reloadCalendarView(date: selectedDate)
     }
 }

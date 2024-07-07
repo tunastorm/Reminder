@@ -27,6 +27,15 @@ final class AddTodoTagViewController: BaseViewController<AddTodoTagView> {
         super.viewWillAppear(animated)
         configNavigationbar(bgColor: .darkGray)
     }
+    
+    override func configNavigationbar(bgColor: UIColor) {
+        super.configNavigationbar(bgColor: bgColor)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        sendTagData()
+    }
 }
 
 extension AddTodoTagViewController: UITextFieldDelegate {
@@ -50,24 +59,27 @@ extension AddTodoTagViewController: UITextFieldDelegate {
             return true
         }
         
-        guard textField == rootView.tagTextField, let filterd = TextInputFilter().tagFilter(textField.text ?? "") else {
-            textField.placeholder = "사용할 태그를 입력하세요"
-            return true
-        }
+//        guard textField == rootView.tagTextField, let filtered = TextInputFilter().tagFilter(textField.text ?? "") else {
+//            textField.placeholder = "사용할 태그를 입력하세요"
+//            return true
+//        }
+
         return true
     }
 }
 
 extension AddTodoTagViewController: AddTodoTagViewDelegate {
     func sendTagData() {
-        guard let text = rootView.tagTextField.text, let filterd = TextInputFilter().tagFilter(text) else {
-            print(#function, "공백텍스트")
+        print(#function, "하이하이")
+        guard let text = rootView.tagTextField.text, let filtered = TextInputFilter().tagFilter(text) else {
+            rootView.tagTextField.placeholder = "사용할 태그를 입력하세요"
             return
         }
         guard let delegate else {
             return
         }
-        delegate.receiveData(data: filterd)
-        popBeforeViewController(animated: true)
+        print(#function, "태그설정완료")
+        delegate.receiveData(data: filtered)
+//        popBeforeViewController(animated: true)
     }
 }

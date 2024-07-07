@@ -14,6 +14,9 @@ final class AddTodoPriorityViewController: BaseViewController<AddTodoPriorityVie
     
     let pickerList = TodoModel.Column.priority.allLevels
     
+    var selectedPriority: TodoModel.Column.PriortyLevel?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         rootView.pickerView.delegate = self
@@ -23,6 +26,14 @@ final class AddTodoPriorityViewController: BaseViewController<AddTodoPriorityVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationbar(bgColor: .darkGray)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let selectedPriority, let delegate else {
+            return
+        }
+        delegate.receiveData(data: selectedPriority)
     }
 }
 
@@ -44,7 +55,6 @@ extension AddTodoPriorityViewController: UIPickerViewDelegate, UIPickerViewDataS
         guard let delegate else {
             return
         }
-        delegate.receiveData(data: pickerList[row])
-        popBeforeViewController(animated: true)
+        selectedPriority = pickerList[row]
     }
 }

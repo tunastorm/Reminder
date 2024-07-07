@@ -90,6 +90,7 @@ extension AddTodoViewController: ViewTransitionDelegate {
         print( self.self, #function)
         // 어떻게 추상화하면 좋을까.
         var nextVC: UIViewController?
+        var backButton: UIBarButtonItem?
         switch T.self {
             case is AddTodoCalendarViewController.Type:
                 let vc = T() as! AddTodoCalendarViewController
@@ -109,6 +110,7 @@ extension AddTodoViewController: ViewTransitionDelegate {
             print("nextVC 없음")
             return
         }
+        print(#function, "오이")
         pushViewController(view: nextVC, backButton: true, animated: true)
     }
 }

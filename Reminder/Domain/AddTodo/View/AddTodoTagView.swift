@@ -22,15 +22,15 @@ final class AddTodoTagView: BaseView {
         $0.textColor = .systemGray5
     }
     
-    let sendButton = UIButton().then {
-        $0.setTitle("확인", for: .normal)
-        $0.tintColor = .lightGray
-        $0.backgroundColor = .gray
-    }
+//    let sendButton = UIButton().then {
+//        $0.setTitle("확인", for: .normal)
+//        $0.tintColor = .lightGray
+//        $0.backgroundColor = .gray
+//    }
     
     override func configHierarchy() {
         self.addSubview(tagTextField)
-        self.addSubview(sendButton)
+//        self.addSubview(sendButton)
     }
     
     override func configLayout() {
@@ -40,25 +40,25 @@ final class AddTodoTagView: BaseView {
             $0.centerY.equalToSuperview().offset(-20)
         }
         
-        sendButton.snp.makeConstraints {
-            $0.height.equalTo(40)
-            $0.width.equalTo(100)
-            $0.top.equalTo(tagTextField.snp.bottom).offset(40)
-            $0.centerX.equalToSuperview()
-        }
+//        sendButton.snp.makeConstraints {
+//            $0.height.equalTo(40)
+//            $0.width.equalTo(100)
+//            $0.top.equalTo(tagTextField.snp.bottom).offset(40)
+//            $0.centerX.equalToSuperview()
+//        }
     }
     
     override func configView() {
         self.backgroundColor = .darkGray
-        sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
+//        sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
     }
     
-    @objc func sendButtonClicked() {
-        print(#function)
-        guard let delegate else {
-            print(#function, "DataReceiveDelegate 미설정")
-            return
-        }
-        delegate.sendTagData()
-    }
+//    @objc func sendButtonClicked() {
+//        print(#function)
+//        guard let delegate else {
+//            print(#function, "DataReceiveDelegate 미설정")
+//            return
+//        }
+//        delegate.sendTagData()
+//    }
 }
