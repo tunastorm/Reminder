@@ -37,13 +37,13 @@ final class TodoRepository {
         return Array(value)
     }
     
-    func fetchAllFiltered<T: Object>(obejct: T.Type, sortKey: TodoModel.Column, acending: Bool = true, filter: (Query<T>) -> Query<Bool>) -> [T] {
-        let value = realm.objects(obejct).where(filter).sorted(byKeyPath: sortKey.rawValue, ascending: acending)
+    func fetchAllFiltered<T: Object>(obejct: T.Type, sortKey: TodoModel.Column, acending: Bool = true, query: (Query<T>) -> Query<Bool>) -> [T] {
+        let value = realm.objects(obejct).where(query).sorted(byKeyPath: sortKey.rawValue, ascending: acending)
         return Array(value)
     }
     
-    func searchCompoundedFilter<T:Object>(objet: T.Type, sortKey: TodoModel.Column, acending: Bool = true, filter: NSCompoundPredicate) -> [T] {
-        let value = realm.objects(objet).filter(filter).sorted(byKeyPath: sortKey.rawValue, ascending: acending)
+    func searchCompoundedFilter<T:Object>(objet: T.Type, sortKey: TodoModel.Column, acending: Bool = true, compoundPredicate: NSCompoundPredicate, filter: (Query<T>) -> Query<Bool>) -> [T] {
+        let value = realm.objects(objet).where(filter).filter(compoundPredicate).sorted(byKeyPath: sortKey.rawValue, ascending: acending)
         print(#function, value)
         return Array(value)
     }

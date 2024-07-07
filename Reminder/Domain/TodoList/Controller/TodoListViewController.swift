@@ -35,7 +35,7 @@ final class TodoListViewController: BaseViewController<TodoListView> {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configList(sort: TodoModel.Column.deadline)
+        list = configList(sort: TodoModel.Column.deadline)
         guard let filter else {
             return
         }
@@ -70,8 +70,8 @@ final class TodoListViewController: BaseViewController<TodoListView> {
         rootView.configSearchBar()
     }
     
-    func configList(sort: TodoModel.Column, acending: Bool = true) {
-        list = repository.fetchAllFiltered(obejct: object, sortKey: sort, acending: acending) {
+    func configList(sort: TodoModel.Column, acending: Bool = true) -> [TodoModel] {
+        return repository.fetchAllFiltered(obejct: object, sortKey: sort, acending: acending) {
             switch filter {
             case .today: $0.deadline != nil && $0.deadline == today
             case .planned: $0.deadline != nil && $0.deadline > today
